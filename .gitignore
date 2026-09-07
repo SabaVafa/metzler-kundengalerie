@@ -1,0 +1,16 @@
+# This repo holds the Kundengalerie prototype only (kundenbilder.html + build/).
+# Keep other Metzler projects that share this working folder out of it.
+/Awards/
+/BlackFriday/
+/Carousel Images/
+/ICONS/
+/Logo/
+/Paymentshipping logos/
+/Reviews/
+/Trust badges/
+/XDM10 Banner/
+/assets/
+/data/
+/images/
+/home.html
+/styles-v2.css
