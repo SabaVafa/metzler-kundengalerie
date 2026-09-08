@@ -3635,7 +3635,7 @@ p{margin:0 0 1rem;}
 .gal-winner{background:var(--color-teal-900); color:var(--color-white); position:relative; overflow:hidden;}
 .gal-winner::before{content:""; position:absolute; top:-30%; right:-10%; width:38rem; height:38rem; z-index:0; background:radial-gradient(50% 50% at 50% 50%, rgba(1,82,83,0.45), transparent 70%); pointer-events:none;}
 .gal-winner .container{position:relative; z-index:1;}
-.gal-winner__grid{display:grid; grid-template-columns:1.05fr 0.95fr; gap:clamp(2rem,4vw,4rem); align-items:center;}
+.gal-winner__grid{display:grid; grid-template-columns:minmax(0,23rem) 1fr; gap:clamp(2rem,4vw,4rem); align-items:center;}
 .gal-winner__media{position:relative; margin:0; border-radius:var(--radius-lg); overflow:hidden; aspect-ratio:1 / 1; background:var(--color-graphite-800); box-shadow:0 1.75rem 3.5rem rgba(0,0,0,0.45);}
 .gal-winner__track{position:absolute; inset:0; display:flex; height:100%; will-change:transform;}
 .gal-winner__track.is-anim{transition:transform .7s cubic-bezier(.4,0,.2,1);}
