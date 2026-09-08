@@ -3674,7 +3674,13 @@ p{margin:0 0 1rem;}
 .gal-winner__thumb:active{transform:translateY(0.0625rem);}
 .gal-winner__thumb.is-active{opacity:1; outline-color:var(--color-star);}
 .gal-winner__thumb:focus-visible{outline-color:var(--color-white);}
-@media(max-width:75rem){ .gal-winner__grid{grid-template-columns:21rem 1fr;} .gal-winner__rail{display:none;} }
+@media(max-width:75rem){
+  .gal-winner__grid{grid-template-columns:21rem 1fr;}
+  /* rail becomes a full-width horizontal scroll strip below the copy */
+  .gal-winner__rail{grid-column:1 / -1; display:flex; gap:0.5rem; margin-top:0.5rem; padding-bottom:0.25rem; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
+  .gal-winner__rail::-webkit-scrollbar{display:none;}
+  .gal-winner__thumb{flex:0 0 4.5rem;}
+}
 @media(max-width:60rem){ .gal-winner__grid{grid-template-columns:1fr; gap:2rem;} .gal-winner__media{order:-1;} }
 @media(max-width:48rem){
   .gal-winner__badge{top:0.65rem; left:0.65rem; padding:0.3rem 0.6rem; gap:0.3rem; font-size:0.6875rem;}
@@ -4694,6 +4700,11 @@ h1,h2,h3,.display{text-wrap:balance;}
       if(eyebrow) eyebrow.textContent = 'Gewinner · ' + META[real].month;
       if(counter) counter.textContent = pad(real+1) + ' / ' + N;
       for(var t=0;t<thumbs.length;t++){ thumbs[t].classList.toggle('is-active', t===real); }
+      // when the rail is a horizontal scroll strip (mobile), keep the active thumb in view
+      if(railEl && railEl.scrollWidth > railEl.clientWidth + 4 && thumbs[real]){
+        var at=thumbs[real];
+        railEl.scrollTo({ left: at.offsetLeft - (railEl.clientWidth - at.offsetWidth)/2, behavior:'smooth' });
+      }
     }
     function apply(p, anim){ track.classList.toggle('is-anim', !!anim); track.style.transform='translateX(-'+(p*100)+'%)'; }
     var pos=1, snap=null;
