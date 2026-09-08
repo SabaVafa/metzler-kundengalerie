@@ -3566,8 +3566,9 @@ p{margin:0 0 1rem;}
 /* ============ LIGHTBOX — matches the PDP Bewertungen modal (.rvw-lb), with a blurred same-image backdrop ============ */
 .gal-lb{position:fixed; inset:0; z-index:1000; display:none; align-items:center; justify-content:center; padding:clamp(0.75rem,3vw,2.5rem);}
 .gal-lb.is-open{display:flex;}
-/* scroll-lock while a modal is open (position:fixed locks reliably incl. iOS; JS restores scroll position) */
-body.gal-lb-lock{position:fixed; left:0; right:0; width:100%; overflow:hidden;}
+/* scroll-lock while a modal is open — overflow:hidden on the real scroller (html+body)
+   locks without repositioning, so there's no jump on open/close */
+html.gal-lb-lock, html.gal-lb-lock body{overflow:hidden;}
 .gal-lb__backdrop{position:absolute; inset:0; background:rgba(8,10,12,0.78); -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px);}
 .gal-lb__dialog{position:relative; z-index:1; display:grid; grid-template-columns:1.15fr 0.85fr; grid-template-rows:auto minmax(0,1fr); width:min(64rem,100%); height:min(85vh,40rem); background:var(--color-white); border-radius:var(--radius-xl); overflow:hidden; box-shadow:var(--shadow-modal); animation:galLbIn .22s cubic-bezier(.2,.7,.3,1) both;}
 @keyframes galLbIn{from{opacity:0; transform:translateY(0.75rem) scale(0.985);} to{opacity:1; transform:none;}}
@@ -4665,10 +4666,10 @@ h1,h2,h3,.display{text-wrap:balance;}
       return '<div class="gal-lb__prod"><span class="gal-lb__prod-name">'+pr.name+'</span>'+link+'</div>';
     }).join('');
   }
-  // robust scroll lock: position:fixed the body (works on iOS/touch too) and restore scroll on close
-  var lockedScrollY = 0;
-  function lockScroll(){ lockedScrollY = window.scrollY || window.pageYOffset || 0; document.body.style.top = (-lockedScrollY) + 'px'; document.body.classList.add('gal-lb-lock'); }
-  function unlockScroll(){ document.body.classList.remove('gal-lb-lock'); document.body.style.top = ''; window.scrollTo(0, lockedScrollY); }
+  // scroll lock without repositioning (no open/close jump): lock the real scroller and
+  // pad for the vanished scrollbar so the page doesn't shift horizontally
+  function lockScroll(){ var sw = window.innerWidth - document.documentElement.clientWidth; document.documentElement.classList.add('gal-lb-lock'); if(sw>0) document.body.style.paddingRight = sw + 'px'; }
+  function unlockScroll(){ document.documentElement.classList.remove('gal-lb-lock'); document.body.style.paddingRight = ''; }
   function openLightbox(i){ idx=i; setLbMode(false); if(lbProdsLabel) lbProdsLabel.style.display=''; render(i); galLbOpen=true; lbPause.forEach(function(f){ f(); }); lb.classList.add('is-open'); lockScroll(); }
   // Hero carousel slides open their own photo, mapped to a gallery item for the product links
   function openHeroLightbox(sd){
