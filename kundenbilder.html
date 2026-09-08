@@ -3447,7 +3447,12 @@ p{margin:0 0 1rem;}
 .gal-trust__num{display:inline-flex; align-items:center; gap:0.35rem; font-size:clamp(1.25rem,1.6vw,1.5rem); font-weight:700; letter-spacing:-0.02em; line-height:1; color:var(--color-digital-black); font-variant-numeric:tabular-nums;}
 .gal-trust__num svg{width:1.4rem; height:1.4rem; color:var(--color-star);}
 .gal-trust__lbl{font-size:0.75rem; font-weight:600; letter-spacing:0.10em; text-transform:uppercase; color:var(--color-graphite-600); line-height:1.35;}
-@media(max-width:48rem){ .gal-trust__grid{display:grid; grid-template-columns:1fr 1fr; gap:1.75rem 1rem; padding:2rem 0;} .gal-trust__grid > .gal-trust__item:last-child:nth-child(odd){grid-column:1 / -1;} }
+/* Mobile: single swipeable row with peek + scroll-snap (same approach as the About-Us trust strip) */
+@media(max-width:48rem){
+  .gal-trust__grid{flex-wrap:nowrap; justify-content:flex-start; gap:1.5rem; padding:2rem 0; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
+  .gal-trust__grid::-webkit-scrollbar{display:none;}
+  .gal-trust__item{flex:0 0 42%; min-width:8rem; scroll-snap-align:start;}
+}
 
 /* ---- Hero auto-advancing carousel: one featured customer photo at a time, the
    next sliding over automatically, with a floating shoppable product card ---- */
