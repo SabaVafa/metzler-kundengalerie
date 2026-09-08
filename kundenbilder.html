@@ -3442,16 +3442,31 @@ p{margin:0 0 1rem;}
 .gal-hero .btn-secondary:hover{background:rgba(255,255,255,0.1); color:var(--color-white);}
 /* Full-width trust / stats band */
 .gal-trust{background:var(--color-white); border-bottom:0.0625rem solid var(--color-graphite-300);}
+.gal-trust .strip-viewport{position:relative;}
 .gal-trust__grid{display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(3rem,8vw,8rem); padding:2.75rem 0;}
 .gal-trust__item{display:flex; flex-direction:column; align-items:center; text-align:center; gap:0.35rem;}
 .gal-trust__num{display:inline-flex; align-items:center; gap:0.35rem; font-size:clamp(1.25rem,1.6vw,1.5rem); font-weight:700; letter-spacing:-0.02em; line-height:1; color:var(--color-digital-black); font-variant-numeric:tabular-nums;}
 .gal-trust__num svg{width:1.4rem; height:1.4rem; color:var(--color-star);}
 .gal-trust__lbl{font-size:0.75rem; font-weight:600; letter-spacing:0.10em; text-transform:uppercase; color:var(--color-graphite-600); line-height:1.35;}
-/* Mobile: single swipeable row with peek + scroll-snap (same approach as the About-Us trust strip) */
-@media(max-width:48rem){
-  .gal-trust__grid{flex-wrap:nowrap; justify-content:flex-start; gap:1.5rem; padding:2rem 0; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
+/* Side-arrow chevrons for the swipe rail — same control as the About-Us .strip-arrow */
+.strip-arrow{position:absolute; top:50%; transform:translateY(-50%); z-index:3; width:2.5rem; height:2.5rem; display:none; place-items:center; border-radius:var(--radius); border:0.0625rem solid var(--color-graphite-300); background:var(--color-white); color:var(--color-digital-black); cursor:pointer; box-shadow:0 0.125rem 0.625rem rgba(0,0,0,0.18); transition:background .15s ease, color .15s ease, border-color .15s ease, opacity .22s ease;}
+.strip-arrow svg{width:1.4rem; height:1.4rem;}
+.strip-arrow--prev{left:0.5rem;}
+.strip-arrow--prev svg{transform:rotate(180deg);}
+.strip-arrow--next{right:0.5rem;}
+@media(hover:hover){ .strip-arrow:hover{background:var(--color-teal); color:var(--color-white); border-color:var(--color-teal);} }
+.strip-arrow:focus-visible{outline:none; box-shadow:0 0 0 0.1875rem rgba(1,82,83,0.18);}
+.strip-arrow.is-hidden{opacity:0; pointer-events:none;}
+/* ≤64rem: single swipeable row with peek + scroll-snap + side arrows (About-Us trust-strip approach) */
+@media(max-width:64rem){
+  .gal-trust__grid{flex-wrap:nowrap; justify-content:flex-start; gap:clamp(2rem,4vw,3rem); overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
   .gal-trust__grid::-webkit-scrollbar{display:none;}
-  .gal-trust__item{flex:0 0 42%; min-width:8rem; scroll-snap-align:start;}
+  .gal-trust__item{flex:0 0 22%; min-width:8rem; scroll-snap-align:start;}
+  .gal-trust .strip-arrow{display:grid;}
+}
+@media(max-width:48rem){
+  .gal-trust__grid{gap:1.5rem; padding:2rem 0;}
+  .gal-trust__item{flex:0 0 42%;}
 }
 
 /* ---- Hero auto-advancing carousel: one featured customer photo at a time, the
@@ -3702,6 +3717,9 @@ body.gal-lb-lock{position:fixed; left:0; right:0; width:100%; overflow:hidden;}
   .gal-winner__badge svg{width:0.85rem; height:0.85rem;}
   .gal-winner__credit{padding:2.25rem 0.8rem 0.7rem; font-size:0.8125rem;}
   .gal-winner__counter{right:0.7rem; bottom:0.7rem;}
+  /* full-width stacked CTAs on mobile */
+  .gal-winner__cta{flex-direction:column; align-items:stretch;}
+  .gal-winner__cta .btn{width:100%;}
 }
 @media(hover:none){ .gal-winner__nav{opacity:1;} }
 
@@ -3930,8 +3948,10 @@ h1,h2,h3,.display{text-wrap:balance;}
 
   <!-- TRUST / STATS BAND (full-width) -->
   <section class="gal-trust">
-    <div class="container">
-      <div class="gal-trust__grid">
+    <div class="strip-viewport">
+      <button class="strip-arrow strip-arrow--prev is-hidden" type="button" data-strip-scroll="prev" aria-label="Zurück"><svg><use href="#i-chevron-right"/></svg></button>
+      <div class="container">
+        <div class="gal-trust__grid">
         <div class="gal-trust__item">
           <span class="gal-trust__num">Seit&nbsp;2013</span>
           <span class="gal-trust__lbl">Manufaktur</span>
@@ -3952,7 +3972,9 @@ h1,h2,h3,.display{text-wrap:balance;}
           <span class="gal-trust__num">2.500</span>
           <span class="gal-trust__lbl">Produkte</span>
         </div>
+        </div>
       </div>
+      <button class="strip-arrow strip-arrow--next" type="button" data-strip-scroll="next" aria-label="Weiter"><svg><use href="#i-chevron-right"/></svg></button>
     </div>
   </section>
 
@@ -4779,6 +4801,31 @@ h1,h2,h3,.display{text-wrap:balance;}
     if(media){ media.addEventListener('mouseenter', stop); media.addEventListener('mouseleave', start); }
     lbPause.push(stop); lbResume.push(start);
     start();
+  })();
+
+  /* ---- Side-arrow controls for horizontal swipe strips (trust band) ---- */
+  (function(){
+    Array.prototype.forEach.call(document.querySelectorAll('.strip-viewport'), function(vp){
+      var scroller = vp.querySelector('.gal-trust__grid');
+      if(!scroller) return;
+      var prev = vp.querySelector('.strip-arrow--prev');
+      var next = vp.querySelector('.strip-arrow--next');
+      function step(dir){ scroller.scrollBy({ left: dir * scroller.clientWidth * 0.7 }); update(); setTimeout(update, 260); }
+      Array.prototype.forEach.call(vp.querySelectorAll('[data-strip-scroll]'), function(btn){
+        btn.addEventListener('click', function(){ step(btn.getAttribute('data-strip-scroll')==='next' ? 1 : -1); });
+      });
+      function update(){
+        var first = scroller.firstElementChild;
+        var startT = first ? first.offsetLeft : 0;
+        var atStart = scroller.scrollLeft <= startT + 4;
+        var atEnd   = scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 4;
+        if(prev) prev.classList.toggle('is-hidden', atStart);
+        if(next) next.classList.toggle('is-hidden', atEnd);
+      }
+      scroller.addEventListener('scroll', update, { passive:true });
+      window.addEventListener('resize', update);
+      update();
+    });
   })();
 
   /* ---- Fotowettbewerb form ---- */
