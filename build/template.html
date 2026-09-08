@@ -332,6 +332,8 @@ p{margin:0 0 1rem;}
 .gal-winner .btn-white:hover{background:rgba(255,255,255,0.1); border-color:var(--color-white);}
 /* right-side thumbnail rail: fills the remaining width to the gutter and doubles as carousel nav */
 .gal-winner__rail{display:grid; grid-template-columns:repeat(6,1fr); gap:0.5rem; align-content:center;}
+.gal-winner__railwrap{min-width:0;}
+.gal-winner__railnav{display:none;}
 .gal-winner__thumb{position:relative; aspect-ratio:1/1; margin:0; padding:0; border:0; border-radius:var(--radius); overflow:hidden; cursor:pointer; background:var(--color-graphite-800); opacity:0.5; outline:0.125rem solid transparent; outline-offset:0.125rem; transition:opacity .16s ease, outline-color .16s ease, transform .12s ease;}
 .gal-winner__thumb img{width:100%; height:100%; object-fit:cover; display:block;}
 .gal-winner__thumb:hover{opacity:0.85;}
@@ -340,10 +342,15 @@ p{margin:0 0 1rem;}
 .gal-winner__thumb:focus-visible{outline-color:var(--color-white);}
 @media(max-width:75rem){
   .gal-winner__grid{grid-template-columns:21rem 1fr;}
-  /* rail becomes a full-width horizontal scroll strip below the copy */
-  .gal-winner__rail{grid-column:1 / -1; display:flex; gap:0.5rem; margin-top:0.5rem; padding-bottom:0.25rem; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
+  /* rail becomes a full-width horizontal scroll strip flanked by chevrons */
+  .gal-winner__railwrap{grid-column:1 / -1; display:flex; align-items:center; gap:0.6rem; margin-top:0.5rem;}
+  .gal-winner__rail{flex:1 1 auto; min-width:0; display:flex; gap:0.85rem; padding-bottom:0.25rem; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
   .gal-winner__rail::-webkit-scrollbar{display:none;}
   .gal-winner__thumb{flex:0 0 4.5rem;}
+  .gal-winner__railnav{display:grid; place-items:center; flex:0 0 auto; width:2.25rem; height:2.25rem; cursor:pointer; color:var(--color-white); background:rgba(255,255,255,0.12); border:0.0625rem solid rgba(255,255,255,0.3); border-radius:var(--radius); transition:background .15s ease;}
+  .gal-winner__railnav:hover{background:rgba(255,255,255,0.22);}
+  .gal-winner__railnav:active{background:rgba(255,255,255,0.3);}
+  .gal-winner__railnav svg{width:1.05rem; height:1.05rem;}
 }
 @media(max-width:60rem){ .gal-winner__grid{grid-template-columns:1fr; gap:2rem;} .gal-winner__media{order:-1;} }
 @media(max-width:48rem){
@@ -648,7 +655,11 @@ h1,h2,h3,.display{text-wrap:balance;}
             <a href="https://www.metzlergmbh.de/gewinner/" target="_blank" rel="noopener" class="btn btn-white btn-lg">Alle Gewinner ansehen</a>
           </div>
         </div>
-        <div class="gal-winner__rail" data-winner-thumbs role="group" aria-label="Weitere Gewinnerfotos auswählen"><!-- thumbnails injected by JS --></div>
+        <div class="gal-winner__railwrap">
+          <button class="gal-winner__railnav" data-rail-nav="prev" type="button" aria-label="Thumbnails zurück"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <div class="gal-winner__rail" data-winner-thumbs role="group" aria-label="Weitere Gewinnerfotos auswählen"><!-- thumbnails injected by JS --></div>
+          <button class="gal-winner__railnav" data-rail-nav="next" type="button" aria-label="Thumbnails weiter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </div>
       </div>
     </div>
   </section>
@@ -1200,6 +1211,14 @@ h1,h2,h3,.display{text-wrap:balance;}
         railEl.appendChild(b); thumbs.push(b);
       });
     }
+    // side chevrons scroll the mobile thumbnail strip
+    Array.prototype.forEach.call(document.querySelectorAll('[data-rail-nav]'), function(btn){
+      btn.addEventListener('click', function(){
+        if(!railEl) return;
+        var dir = btn.getAttribute('data-rail-nav')==='next' ? 1 : -1;
+        railEl.scrollBy({ left: dir * railEl.clientWidth * 0.7 });
+      });
+    });
     function realOf(p){ return ((p-1)%N+N)%N; }
     function paint(real){
       if(credit)  credit.textContent  = 'Eingereicht von ' + META[real].name;
@@ -1209,7 +1228,7 @@ h1,h2,h3,.display{text-wrap:balance;}
       // when the rail is a horizontal scroll strip (mobile), keep the active thumb in view
       if(railEl && railEl.scrollWidth > railEl.clientWidth + 4 && thumbs[real]){
         var at=thumbs[real];
-        railEl.scrollTo({ left: at.offsetLeft - (railEl.clientWidth - at.offsetWidth)/2, behavior:'smooth' });
+        railEl.scrollTo({ left: at.offsetLeft - (railEl.clientWidth - at.offsetWidth)/2 });
       }
     }
     function apply(p, anim){ track.classList.toggle('is-anim', !!anim); track.style.transform='translateX(-'+(p*100)+'%)'; }
