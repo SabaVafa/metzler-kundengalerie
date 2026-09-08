@@ -311,13 +311,14 @@ p{margin:0 0 1rem;}
 .gal-winner__badge svg{width:1.05rem; height:1.05rem;}
 .gal-winner__credit{position:absolute; left:0; right:0; bottom:0; z-index:3; margin:0; padding:3rem 1.1rem 0.95rem; font-size:0.875rem; font-weight:600; color:var(--color-white); background:linear-gradient(to top, rgba(0,0,0,0.78), transparent); pointer-events:none;}
 .gal-winner__counter{position:absolute; right:1.1rem; bottom:0.95rem; z-index:4; padding:0.2rem 0.6rem; border-radius:var(--radius-pill); font-size:0.75rem; font-weight:700; letter-spacing:0.03em; color:var(--color-white); background:rgba(0,0,0,0.45); -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); font-variant-numeric:tabular-nums; pointer-events:none;}
-.gal-winner__nav{position:absolute; top:50%; transform:translateY(-50%); z-index:4; width:2.5rem; height:2.5rem; display:grid; place-items:center; cursor:pointer; color:var(--color-white); background:rgba(0,0,0,0.34); border:0.0625rem solid rgba(255,255,255,0.65); border-radius:50%; -webkit-backdrop-filter:blur(2px); backdrop-filter:blur(2px); opacity:0; transition:opacity .18s, background .15s ease, color .15s ease, transform .12s ease;}
+/* nav arrows: same frame as the PDP Bewertungen modal (.rvw-lb__nav) */
+.gal-winner__nav{position:absolute; top:50%; transform:translateY(-50%); z-index:4; width:2.75rem; height:2.75rem; display:grid; place-items:center; line-height:1; cursor:pointer; color:var(--color-white); background:rgba(0,0,0,0.28); border:0.0625rem solid rgba(255,255,255,0.85); border-radius:var(--radius); -webkit-backdrop-filter:blur(2px); backdrop-filter:blur(2px); opacity:0; transition:opacity .18s, background .15s ease, color .15s ease, transform .12s ease;}
 .gal-winner__media:hover .gal-winner__nav{opacity:1;}
-.gal-winner__nav[data-winner-nav="prev"]{left:0.75rem;}
-.gal-winner__nav[data-winner-nav="next"]{right:0.75rem;}
-.gal-winner__nav:hover{background:var(--color-white); color:var(--color-graphite-900);}
-.gal-winner__nav:active{transform:translateY(-50%) scale(0.94);}
-.gal-winner__nav svg{width:1.25rem; height:1.25rem;}
+.gal-winner__nav[data-winner-nav="prev"]{left:clamp(0.5rem,1.5vw,1rem);}
+.gal-winner__nav[data-winner-nav="next"]{right:clamp(0.5rem,1.5vw,1rem);}
+.gal-winner__nav:hover{background:var(--color-white); color:var(--color-digital-black);}
+.gal-winner__nav:active{background:var(--color-white); color:var(--color-digital-black); transform:translateY(-50%) scale(0.94);}
+.gal-winner__nav svg{width:1.4rem; height:1.4rem;}
 .gal-winner__eyebrow{display:inline-flex; align-items:center; gap:0.45rem; font-size:0.75rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--color-star); margin:0 0 1rem;}
 .gal-winner__eyebrow svg{width:1rem; height:1rem;}
 .gal-winner__title{font-size:clamp(1.5rem,2.6vw,2.05rem); font-weight:700; line-height:1.25; letter-spacing:-0.015em; color:var(--color-white); margin:0 0 1rem;}
