@@ -825,6 +825,7 @@ h1,h2,h3,.display{text-wrap:balance;}
 <script>
 (function(){
   var IMG = window.IMG || {};
+  var galLbOpen = false, heroPause = null, heroResume = null;
   var CATS = {
     all:{label:'Alle', href:null},
     bk:{label:'Briefkästen', href:'https://edelstahl-tuerklingel.de/briefkasten'},
@@ -921,11 +922,13 @@ h1,h2,h3,.display{text-wrap:balance;}
     paintDots(0); apply(0,false);
     var timer=null;
     function next(){ go(cur+1); }
-    function start(){ if(reduce) return; stop(); timer=setInterval(next, 2600); }
+    function start(){ if(reduce || galLbOpen) return; stop(); timer=setInterval(next, 2600); }
     function stop(){ if(timer){ clearInterval(timer); timer=null; } }
     function restart(){ stop(); start(); }
     if(slider){ slider.addEventListener('mouseenter', stop); slider.addEventListener('mouseleave', start); }
     document.addEventListener('visibilitychange', function(){ if(document.hidden) stop(); else start(); });
+    // let the lightbox pause/resume the carousel while it is open
+    heroPause = stop; heroResume = start;
     start();
   })();
 
@@ -1075,7 +1078,7 @@ h1,h2,h3,.display{text-wrap:balance;}
              '<a class="btn btn-primary btn-sm" href="'+href+'" target="_blank" rel="noopener">Zum Produkt</a></div>';
     }).join('');
   }
-  function openLightbox(i){ idx=i; setLbMode(false); if(lbProdsLabel) lbProdsLabel.style.display=''; render(i); lb.classList.add('is-open'); document.body.style.overflow='hidden'; }
+  function openLightbox(i){ idx=i; setLbMode(false); if(lbProdsLabel) lbProdsLabel.style.display=''; render(i); galLbOpen=true; if(heroPause) heroPause(); lb.classList.add('is-open'); document.body.style.overflow='hidden'; }
   // Hero carousel slides open their own photo, mapped to a gallery item for the product links
   function openHeroLightbox(sd){
     var item=null; if(sd.lb){ for(var i=0;i<GALLERY.length;i++){ if(GALLERY[i].id===sd.lb){ item=GALLERY[i]; break; } } }
@@ -1085,9 +1088,10 @@ h1,h2,h3,.display{text-wrap:balance;}
     lbProds.innerHTML = prodRows(prods);
     if(lbProdsLabel) lbProdsLabel.style.display = prods.length ? '' : 'none';
     setLbMode(true);
+    galLbOpen=true; if(heroPause) heroPause();
     lb.classList.add('is-open'); document.body.style.overflow='hidden';
   }
-  function closeLightbox(){ lb.classList.remove('is-open'); document.body.style.overflow=''; }
+  function closeLightbox(){ lb.classList.remove('is-open'); document.body.style.overflow=''; galLbOpen=false; if(heroResume) heroResume(); }
   function step(dir){
     var vis = visibleIndexes(); if(!vis.length) return;
     var pos = vis.indexOf(idx); if(pos===-1) pos=0;
