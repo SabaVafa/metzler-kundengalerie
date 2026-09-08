@@ -1116,8 +1116,11 @@ h1,h2,h3,.display{text-wrap:balance;}
   function prodRows(prods){
     return prods.map(function(pr){
       var c = CATS[pr.cat]||{}; var href = pr.href || c.href || '#';
-      return '<div class="gal-lb__prod"><span class="gal-lb__prod-name">'+pr.name+'</span>'+
-             '<a class="btn btn-primary btn-sm" href="'+href+'" target="_blank" rel="noopener">Zum Produkt</a></div>';
+      // '#' = placeholder (winner product not yet linked): render an inert button
+      var link = href==='#'
+        ? '<a class="btn btn-primary btn-sm" href="#" onclick="event.preventDefault()">Zum Produkt</a>'
+        : '<a class="btn btn-primary btn-sm" href="'+href+'" target="_blank" rel="noopener">Zum Produkt</a>';
+      return '<div class="gal-lb__prod"><span class="gal-lb__prod-name">'+pr.name+'</span>'+link+'</div>';
     }).join('');
   }
   function openLightbox(i){ idx=i; setLbMode(false); if(lbProdsLabel) lbProdsLabel.style.display=''; render(i); galLbOpen=true; lbPause.forEach(function(f){ f(); }); lb.classList.add('is-open'); document.body.style.overflow='hidden'; }
@@ -1193,7 +1196,8 @@ h1,h2,h3,.display{text-wrap:balance;}
       var im=document.createElement('img'); im.src=WIMG[m.key]; im.loading='lazy';
       im.alt='Siegerbild des Monats '+m.month+' – eingereicht von '+m.name;
       s.appendChild(im);
-      var sd={ src:WIMG[m.key], cap:'Siegerbild des Monats · '+m.month+' · '+m.name };
+      // `prod` is a placeholder for now — later set m.prod = {name, href} per winner
+      var sd={ src:WIMG[m.key], cap:'Siegerbild des Monats · '+m.month+' · '+m.name, prods:[ m.prod || {name:'Produkt im Bild', href:'#'} ] };
       s.addEventListener('click', function(){ openHeroLightbox(sd); });
       s.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openHeroLightbox(sd); } });
       track.appendChild(s);
