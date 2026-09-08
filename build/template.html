@@ -881,20 +881,23 @@ h1,h2,h3,.display{text-wrap:balance;}
     function idxOf(id){for(var i=0;i<GALLERY.length;i++){if(GALLERY[i].id===id)return i;}return -1;}
     var HEROIMG = window.HEROIMG || {};
     // Fixed order: featured gallery photo (shoppable) + curated landscape carousel photos
+    // Each slide opens its own photo in the lightbox; `lb` maps it to the
+    // matching gallery item so the "Zum Produkt" links show up.
     var slidesData = [
       { src: IMG['ebenhard_colson'], lb: 'ebenhard_colson' },
-      { src: HEROIMG.siebert3 },
-      { src: HEROIMG.colson2 },
-      { src: HEROIMG.muell4x },
-      { src: HEROIMG.brickvdm10 },
-      { src: HEROIMG.hochbeet }
+      { src: HEROIMG.siebert3,   lb: 'siebert' },
+      { src: HEROIMG.colson2,    lb: 'colson_2x' },
+      { src: HEROIMG.muell4x,    lb: 'mtb_pflanzdach' },
+      { src: HEROIMG.brickvdm10, lb: 'siebert_vdm10' },
+      { src: HEROIMG.hochbeet,   cap: 'Hochbeet XXL in Anthrazit' }
     ].filter(function(sd){ return sd.src; });
     var N = slidesData.length;
     // slides + a clone of the first for a seamless loop
     slidesData.concat([slidesData[0]]).forEach(function(sd, si){
       var s=document.createElement('figure'); s.className='gal-hero__slide';
       var im=document.createElement('img'); im.src=sd.src; im.alt=''; s.appendChild(im);
-      if(si < N && sd.lb){ var lidx=idxOf(sd.lb); if(lidx>=0){ s.style.cursor='pointer'; s.addEventListener('click', function(){ openLightbox(lidx); }); } }
+      s.style.cursor='pointer';
+      s.addEventListener('click', function(){ openHeroLightbox(sd); });
       track.appendChild(s);
     });
     var dots=[];
@@ -1056,7 +1059,34 @@ h1,h2,h3,.display{text-wrap:balance;}
              '<a class="btn btn-primary btn-sm" href="'+href+'" target="_blank" rel="noopener">Zum Produkt</a></div>';
     }).join('');
   }
-  function openLightbox(i){ idx=i; render(i); lb.classList.add('is-open'); document.body.style.overflow='hidden'; }
+  var lbPrevBtn = document.getElementById('lbPrev');
+  var lbNextBtn = document.getElementById('lbNext');
+  var lbProdsLabel = document.querySelector('.gal-lb__prods-label');
+  // hero opens show a single photo (no prev/next/counter); gallery opens show the full set
+  function setLbMode(isHero){
+    if(lbPrevBtn) lbPrevBtn.style.display = isHero ? 'none' : '';
+    if(lbNextBtn) lbNextBtn.style.display = isHero ? 'none' : '';
+    if(lbCounter) lbCounter.style.display = isHero ? 'none' : '';
+  }
+  function prodRows(prods){
+    return prods.map(function(pr){
+      var c = CATS[pr.cat]||{}; var href = pr.href || c.href || '#';
+      return '<div class="gal-lb__prod"><span class="gal-lb__prod-name">'+pr.name+'</span>'+
+             '<a class="btn btn-primary btn-sm" href="'+href+'" target="_blank" rel="noopener">Zum Produkt</a></div>';
+    }).join('');
+  }
+  function openLightbox(i){ idx=i; setLbMode(false); if(lbProdsLabel) lbProdsLabel.style.display=''; render(i); lb.classList.add('is-open'); document.body.style.overflow='hidden'; }
+  // Hero carousel slides open their own photo, mapped to a gallery item for the product links
+  function openHeroLightbox(sd){
+    var item=null; if(sd.lb){ for(var i=0;i<GALLERY.length;i++){ if(GALLERY[i].id===sd.lb){ item=GALLERY[i]; break; } } }
+    var cap = sd.cap || (item?item.cap:'Metzler Kundenfoto');
+    var prods = (item?item.prods:null) || sd.prods || [];
+    lbImg.src=sd.src; lbImg.alt=cap; lbBlur.src=sd.src; lbTitle.textContent=cap;
+    lbProds.innerHTML = prodRows(prods);
+    if(lbProdsLabel) lbProdsLabel.style.display = prods.length ? '' : 'none';
+    setLbMode(true);
+    lb.classList.add('is-open'); document.body.style.overflow='hidden';
+  }
   function closeLightbox(){ lb.classList.remove('is-open'); document.body.style.overflow=''; }
   function step(dir){
     var vis = visibleIndexes(); if(!vis.length) return;
