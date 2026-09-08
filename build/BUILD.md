@@ -21,13 +21,17 @@ To preview: just open `kundenbilder.html` in any browser (it's self-contained).
 
 | Path | Role |
 |------|------|
-| `template.html` | **The editable source** — page markup, gallery CSS/JS, and placeholders (`/*__STYLESV2__*/`, `/*__CHROMECSS__*/`, `/*__CHROMEJS__*/`, `/*__IMGMAP__*/`) plus `<img src="…">` chrome-image paths that get swapped for data URIs. |
+| `template.html` | **The editable source** — page markup, gallery CSS/JS, and placeholders (`/*__STYLESV2__*/`, `/*__CHROMECSS__*/`, `/*__CHROMEJS__*/`, `/*__IMGMAP__*/`, `/*__HEROIMG__*/`, `/*__WINNERSIMG__*/`) plus `<img src="…">` chrome-image paths that get swapped for data URIs. |
 | `assemble.mjs` | Inlines vendor CSS/JS + embeds images → `../kundenbilder.html`. |
 | `vendor/styles-v2.css` | PDP design-system chrome (topbar · header · nav · mobile-nav · footer · tokens · 1380px container). Copied verbatim from the Metzler PDP. |
 | `vendor/chrome.css` | Mega-menu · quickbar · breadcrumb styles (from the PDP). |
 | `vendor/chrome.js` | Header logic: mega-menu (hover/click/keyboard), mobile slide-in nav, scroll-shrink, quickbar toggle, responsive search (from the PDP). |
-| `data/imgmap.json` | The 26 customer photos as base64 data URIs (keyed by id). |
+| `data/imgmap.json` | The 26 customer gallery photos as base64 data URIs (keyed by id). |
 | `data/chromeimg-small.json` | Logo, icons, mega-menu products, posters and footer logos as data URIs (keyed by markup `src`). |
+| `data/hero-carousel.json` | 5 curated hero-carousel photos as data URIs (keyed by name), exposed as `window.HEROIMG`. |
+| `data/winners.json` | The 12 most-recent "Siegerbild des Monats" winner photos as data URIs (keyed by month, e.g. `w2025_07`), exposed as `window.WINNERS`. Winner month/name labels live in `template.html`'s winner-carousel `META` array. |
+
+> **Image format:** every raster image is embedded as **WebP**; logos/UI icons stay **SVG**. The built page contains only WebP + SVG (no JPEG/PNG).
 
 ## To edit the page
 

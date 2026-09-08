@@ -1,6 +1,6 @@
 # Metzler Design System — Section Catalog (SECTIONS.md)
 
-> **Companion to `FOR-CLAUDE.md`.** That file defines tokens, primitives (buttons, forms, cards), header/footer and page scaffolding. **This file is the catalog of ready-made page sections.** When building a page: pick sections from here, stack them per the blueprints below, and only design something new when no existing section fits.
+> **Companion to `metzler-design-brief.md`.** That file defines tokens, primitives (buttons, forms, cards), header/footer and page scaffolding. **This file is the catalog of ready-made page sections.** When building a page: pick sections from here, stack them per the blueprints below, and only design something new when no existing section fits.
 >
 > **Source of truth:** the rendered **SectionsPage** in `index.html` (open the kit → "Sections"). This file is the static HTML/CSS export of exactly those sections. If this file and the kit ever disagree, the kit's rendered preview wins — then this file must be re-synced (see "Maintenance" at the end).
 
@@ -10,7 +10,7 @@
 
 ## 0 · Global section conventions
 
-Every section below assumes the FOR-CLAUDE.md scaffolding: tokens loaded (`metzler-tokens.css` or inline block), outer `<section>` with **no horizontal padding**, content inside `<div class="container">`, spacing via `.section` / `.section--sm` / `.section--lg`.
+Every section below assumes the metzler-design-brief.md scaffolding: tokens loaded (`metzler-tokens.css` or inline block), outer `<section>` with **no horizontal padding**, content inside `<div class="container">`, spacing via `.section` / `.section--sm` / `.section--lg`.
 
 Recurring patterns shared by the sections in this catalog:
 
@@ -52,7 +52,7 @@ Which sections stack in which order. Sections are referenced by their number in 
 Header (canonical, header/preview.html)
 Breadcrumbs
 07  Product Hero                      (white)
-    Feature bar — 4 icons             (FOR-CLAUDE.md §20)
+    Feature bar — 4 icons             (metzler-design-brief.md §20)
 02  Neue Features grid                (white)
 08  Feature Detail (split, ×N)        (white, alternate image side)
 09  Feature Duo                       (white)
@@ -60,10 +60,10 @@ Breadcrumbs
 05  Gesichtserkennung process         (white — only for face-recognition products)
 06  Editorial Q&A                     (white — one per key objection)
 12  Technische Daten spec-callouts    (white)
-    Specs table                       (FOR-CLAUDE.md §20 — full data)
+    Specs table                       (metzler-design-brief.md §20 — full data)
 01  Support & Kontakt                 (white)
 04  FAQ (light)                       (white)
-    CTA band                          (teal-900, FOR-CLAUDE.md)
+    CTA band                          (teal-900, metzler-design-brief.md)
 Footer (canonical)
 ```
 
@@ -1069,7 +1069,7 @@ Same markup wrapped in a dark gradient stage; colors invert to mint/white:
 ## Section 12 · Technische Daten — Spec-Callouts (`spec-`)
 
 **What:** Centered Display-4 heading, then a central product image flanked by spec callouts left and right (icon badge + overline label + bold value + description). Left column right-aligns toward the image on desktop.
-**When:** Product/landing pages as the visual spec summary; the full specs **table** (FOR-CLAUDE.md §20) still follows for complete data.
+**When:** Product/landing pages as the visual spec summary; the full specs **table** (metzler-design-brief.md §20) still follows for complete data.
 **Layout:** `1fr auto 1fr` → single column below 48rem (all items left-aligned, image between).
 
 ```html
@@ -1321,8 +1321,8 @@ The rendered SectionsPage is the single source of truth. A section that exists o
 1. Add a nav entry in `sectionsNav` (use an existing `group` or add a new one).
 2. Copy the standard section wrapper: `<div id="sec-…">` with the `Section NN` overline, `h2` title, and a **one-sentence description ending with "Used on …"** — that sentence becomes the "When" line in this file.
 3. Build the live preview. Rules:
-   - Colors only via `T.*` constants — **never a new raw hex**. If a genuinely new value is unavoidable: first add it to `metzler-tokens.css`, then to `T`, then to `cssVarMap` in `index.html`, then to the token block in `FOR-CLAUDE.md`. Four places, always all four.
-   - All dimensions in rem (1px hairlines as 0.0625rem). Type sizes only from the FOR-CLAUDE.md scale.
+   - Colors only via `T.*` constants — **never a new raw hex**. If a genuinely new value is unavoidable: first add it to `metzler-tokens.css`, then to `T`, then to `cssVarMap` in `index.html`, then to the token block in `metzler-design-brief.md`. Four places, always all four.
+   - All dimensions in rem (1px hairlines as 0.0625rem). Type sizes only from the metzler-design-brief.md scale.
    - Eyebrow pattern: 0.75rem / 700 / 0.15em / uppercase / teal (mint on dark).
    - Icons: inline SVG, stroke 1.8 (1.7 ok for dense spec icons), round caps/joins; icon badge 2.5rem with `var(--radius-lg)` (0.625rem only in the `nfs-` grid).
    - Carousel/slider arrows: square with `var(--radius)`, never circular.
@@ -1347,9 +1347,9 @@ Tell Claude: **"Sync SECTIONS.md with the kit's SectionsPage"** — or do it by 
 
 - [ ] No new hex values outside `metzler-tokens.css` (glows/media-placeholders documented as exceptions).
 - [ ] No px except inside comments; rem everywhere.
-- [ ] No font sizes outside the FOR-CLAUDE.md scale (document a deviation note if a port needs one).
+- [ ] No font sizes outside the metzler-design-brief.md scale (document a deviation note if a port needs one).
 - [ ] Code samples byte-for-byte consistent with the live preview values.
 - [ ] Canonical token names everywhere (`--color-graphite-200`, not `--color-g200`).
 - [ ] Section has a "Used on …" description sentence.
 - [ ] Dark sections use mint for eyebrows/links, never teal-on-dark.
-- [ ] FOR-CLAUDE.md untouched unless a *global* rule changed — section-level detail lives here.
+- [ ] metzler-design-brief.md untouched unless a *global* rule changed — section-level detail lives here.

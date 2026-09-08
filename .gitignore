@@ -1,8 +1,14 @@
-# This repo holds the Kundengalerie prototype only (kundenbilder.html + build/).
-# Keep other Metzler projects that share this working folder out of it.
+# This repo holds the Kundengalerie prototype only:
+#   kundenbilder.html · index.html · build/ · design-system/ · README.md
+# Everything below is a separate Metzler project (or local source) that shares
+# this working folder and must stay out of the repo.
+#
+# Local hero-image source (already downscaled + embedded in build/data/hero-carousel.json):
+/Carousel Images/
+#
+# Other Metzler projects that must not be mixed in:
 /Awards/
 /BlackFriday/
-/Carousel Images/
 /ICONS/
 /Logo/
 /Paymentshipping logos/
