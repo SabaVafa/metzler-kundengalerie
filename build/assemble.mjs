@@ -19,6 +19,7 @@ const chromeJs  = R('./vendor/chrome.js');       // header logic (mega-menu, mob
 const img       = JSON.parse(R('./data/imgmap.json'));          // 26 customer photos (data URIs)
 const chromeImg = JSON.parse(R('./data/chromeimg-small.json')); // logo · icons · mega · footer logos (data URIs)
 const heroImgRaw = R('./data/hero-carousel.json');              // curated hero carousel photos (data URIs)
+const winnersRaw = R('./data/winners.json');                    // Siegerbild des Monats winner photos (data URIs)
 
 const sub = (s, marker, content) => {
   if (!s.includes(marker)) { console.error('MISSING marker', marker); process.exit(1); }
@@ -30,6 +31,7 @@ html = sub(html, '/*__CHROMECSS__*/', chromeCss);
 html = sub(html, '/*__CHROMEJS__*/', chromeJs);
 html = sub(html, '/*__IMGMAP__*/', 'window.IMG=' + JSON.stringify(img) + ';');
 html = sub(html, '/*__HEROIMG__*/', 'window.HEROIMG=' + heroImgRaw + ';');
+html = sub(html, '/*__WINNERSIMG__*/', 'window.WINNERS=' + winnersRaw + ';');
 
 // swap chrome <img src="..."> markup paths for their embedded data URIs
 let swapped = 0, missed = [];

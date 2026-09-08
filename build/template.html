@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>Kundengalerie</title>
 <style>
 /* ============ METZLER TOKENS ============ */
@@ -299,16 +300,24 @@ p{margin:0 0 1rem;}
 .gal-winner::before{content:""; position:absolute; top:-30%; right:-10%; width:38rem; height:38rem; z-index:0; background:radial-gradient(50% 50% at 50% 50%, rgba(1,82,83,0.45), transparent 70%); pointer-events:none;}
 .gal-winner .container{position:relative; z-index:1;}
 .gal-winner__grid{display:grid; grid-template-columns:1.05fr 0.95fr; gap:clamp(2rem,4vw,4rem); align-items:center;}
-.gal-winner__media{position:relative; margin:0; border-radius:var(--radius-lg); overflow:hidden; aspect-ratio:4 / 3; background:var(--color-graphite-800); box-shadow:0 1.75rem 3.5rem rgba(0,0,0,0.45); cursor:pointer;}
-.gal-winner__media img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease;}
-.gal-winner__media:hover img{transform:scale(1.04);}
-.gal-winner__media:focus-visible{outline:0.1875rem solid var(--color-star); outline-offset:0.1875rem;}
-.gal-winner__badge{position:absolute; top:1rem; left:1rem; z-index:3; display:inline-flex; align-items:center; gap:0.45rem; padding:0.5rem 0.9rem; border-radius:var(--radius-pill); background:var(--color-star); color:var(--color-graphite-900); font-size:0.8125rem; font-weight:800; letter-spacing:0.01em; box-shadow:0 0.5rem 1rem rgba(0,0,0,0.28);}
+.gal-winner__media{position:relative; margin:0; border-radius:var(--radius-lg); overflow:hidden; aspect-ratio:1 / 1; background:var(--color-graphite-800); box-shadow:0 1.75rem 3.5rem rgba(0,0,0,0.45);}
+.gal-winner__track{position:absolute; inset:0; display:flex; height:100%; will-change:transform;}
+.gal-winner__track.is-anim{transition:transform .7s cubic-bezier(.4,0,.2,1);}
+.gal-winner__slide{position:relative; flex:0 0 100%; height:100%; margin:0; overflow:hidden; cursor:pointer;}
+.gal-winner__slide img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease;}
+.gal-winner__slide:hover img{transform:scale(1.04);}
+.gal-winner__slide:focus-visible{outline:0.1875rem solid var(--color-star); outline-offset:-0.3rem;}
+.gal-winner__badge{position:absolute; top:1rem; left:1rem; z-index:4; display:inline-flex; align-items:center; gap:0.45rem; padding:0.5rem 0.9rem; border-radius:var(--radius-pill); background:var(--color-star); color:var(--color-graphite-900); font-size:0.8125rem; font-weight:800; letter-spacing:0.01em; box-shadow:0 0.5rem 1rem rgba(0,0,0,0.28);}
 .gal-winner__badge svg{width:1.05rem; height:1.05rem;}
-.gal-winner__zoom{position:absolute; top:0.85rem; right:0.85rem; z-index:3; width:2.1rem; height:2.1rem; border-radius:50%; background:rgba(255,255,255,0.92); display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .18s;}
-.gal-winner__media:hover .gal-winner__zoom, .gal-winner__media:focus-visible .gal-winner__zoom{opacity:1;}
-.gal-winner__zoom svg{width:1.1rem; height:1.1rem; color:var(--color-digital-black);}
-.gal-winner__credit{position:absolute; left:0; right:0; bottom:0; z-index:2; margin:0; padding:2.75rem 1.1rem 0.9rem; font-size:0.8125rem; font-weight:500; color:rgba(255,255,255,0.92); background:linear-gradient(to top, rgba(0,0,0,0.72), transparent);}
+.gal-winner__credit{position:absolute; left:0; right:0; bottom:0; z-index:3; margin:0; padding:3rem 1.1rem 0.95rem; font-size:0.875rem; font-weight:600; color:var(--color-white); background:linear-gradient(to top, rgba(0,0,0,0.78), transparent); pointer-events:none;}
+.gal-winner__counter{position:absolute; right:1.1rem; bottom:0.95rem; z-index:4; padding:0.2rem 0.6rem; border-radius:var(--radius-pill); font-size:0.75rem; font-weight:700; letter-spacing:0.03em; color:var(--color-white); background:rgba(0,0,0,0.45); -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); font-variant-numeric:tabular-nums; pointer-events:none;}
+.gal-winner__nav{position:absolute; top:50%; transform:translateY(-50%); z-index:4; width:2.5rem; height:2.5rem; display:grid; place-items:center; cursor:pointer; color:var(--color-white); background:rgba(0,0,0,0.34); border:0.0625rem solid rgba(255,255,255,0.65); border-radius:50%; -webkit-backdrop-filter:blur(2px); backdrop-filter:blur(2px); opacity:0; transition:opacity .18s, background .15s ease, color .15s ease, transform .12s ease;}
+.gal-winner__media:hover .gal-winner__nav{opacity:1;}
+.gal-winner__nav[data-winner-nav="prev"]{left:0.75rem;}
+.gal-winner__nav[data-winner-nav="next"]{right:0.75rem;}
+.gal-winner__nav:hover{background:var(--color-white); color:var(--color-graphite-900);}
+.gal-winner__nav:active{transform:translateY(-50%) scale(0.94);}
+.gal-winner__nav svg{width:1.25rem; height:1.25rem;}
 .gal-winner__eyebrow{display:inline-flex; align-items:center; gap:0.45rem; font-size:0.75rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--color-star); margin:0 0 1rem;}
 .gal-winner__eyebrow svg{width:1rem; height:1rem;}
 .gal-winner__title{font-size:clamp(1.5rem,2.6vw,2.05rem); font-weight:700; line-height:1.25; letter-spacing:-0.015em; color:var(--color-white); margin:0 0 1rem;}
@@ -321,7 +330,7 @@ p{margin:0 0 1rem;}
 .gal-winner .btn-white{color:var(--color-white); border-color:rgba(255,255,255,0.6);}
 .gal-winner .btn-white:hover{background:rgba(255,255,255,0.1); border-color:var(--color-white);}
 @media(max-width:60rem){ .gal-winner__grid{grid-template-columns:1fr; gap:2rem;} .gal-winner__media{order:-1;} }
-@media(hover:none){ .gal-winner__zoom{opacity:1;} }
+@media(hover:none){ .gal-winner__nav{opacity:1;} }
 
 /* ============ FOOTER ============ */
 .site-footer{background:var(--color-teal-700); color:var(--color-white); padding:3.5rem 0 2rem; margin-top:0;}
@@ -600,20 +609,18 @@ h1,h2,h3,.display{text-wrap:balance;}
   <section class="section gal-winner" aria-labelledby="winner-heading">
     <div class="container">
       <div class="gal-winner__grid">
-        <figure class="gal-winner__media" data-winner="siebert_vdm10" role="button" tabindex="0" aria-label="Siegerbild des Monats vergrößern">
+        <div class="gal-winner__media">
           <span class="gal-winner__badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4"/><path d="M7 4h10v5a5 5 0 01-10 0V4z"/><path d="M7 6H4.5A1.5 1.5 0 003 7.5C3 9.4 4.6 11 6.5 11H7M17 6h2.5A1.5 1.5 0 0121 7.5c0 1.9-1.6 3.5-3.5 3.5H17"/></svg>Siegerbild des Monats</span>
-          <span class="gal-winner__zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></span>
-          <img data-img="siebert_vdm10" alt="Siegerbild des Monats: Briefkasten »Siebert« mit integrierter VDM10-Videosprechanlage – Familie Berger, Stuttgart">
-          <figcaption class="gal-winner__credit">Eingereicht von Familie Berger · Stuttgart</figcaption>
-        </figure>
+          <div class="gal-winner__track" data-winner-track><!-- slides injected by JS --></div>
+          <button class="gal-winner__nav" data-winner-nav="prev" type="button" aria-label="Vorheriger Gewinner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <button class="gal-winner__nav" data-winner-nav="next" type="button" aria-label="Nächster Gewinner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+          <p class="gal-winner__credit" data-winner-credit></p>
+          <span class="gal-winner__counter" data-winner-counter></span>
+        </div>
         <div class="gal-winner__body">
-          <p class="gal-winner__eyebrow"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>Gewinner · September 2026</p>
+          <p class="gal-winner__eyebrow"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><span data-winner-eyebrow>Gewinner</span></p>
           <h2 id="winner-heading" class="gal-winner__title">Unser Gewinnerfoto des Monats</h2>
           <p class="gal-winner__lead">Jeden Monat wählt unsere Jury aus allen Einsendungen das schönste Kundenfoto zum Siegerbild des Monats.</p>
-          <p class="gal-winner__prods-label">Im Bild verbaut</p>
-          <div class="gal-winner__prods">
-            <a class="pchip" href="https://edelstahl-tuerklingel.de/metzler-briefkasten-rostfrei-und-massiv-ral7016-anthrazitgrau-mit-videosprechanlage-vdm10-20-modell-siebert" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4l-7.2 7.2a2 2 0 01-2.8 0l-7.2-7.2a2 2 0 01-.6-1.4V4a2 2 0 012-2h8c.5 0 1 .2 1.4.6l6.2 6.2a2 2 0 010 2.8z"/><circle cx="7.5" cy="7.5" r="1.2" fill="currentColor" stroke="none"/></svg>Briefkasten »Siebert« mit VDM10 Videosprechanlage</a>
-          </div>
           <div class="gal-winner__cta">
             <a href="#mitmachen" class="btn btn-primary btn-lg">Jetzt mitmachen</a>
             <a href="https://www.metzlergmbh.de/gewinner/" target="_blank" rel="noopener" class="btn btn-white btn-lg">Alle Gewinner ansehen</a>
@@ -822,10 +829,11 @@ h1,h2,h3,.display{text-wrap:balance;}
 <script>/*__CHROMEJS__*/</script>
 <script id="imgdata">/*__IMGMAP__*/</script>
 <script id="heroimgdata">/*__HEROIMG__*/</script>
+<script id="winnersdata">/*__WINNERSIMG__*/</script>
 <script>
 (function(){
   var IMG = window.IMG || {};
-  var galLbOpen = false, heroPause = null, heroResume = null;
+  var galLbOpen = false, lbPause = [], lbResume = [];
   var CATS = {
     all:{label:'Alle', href:null},
     bk:{label:'Briefkästen', href:'https://edelstahl-tuerklingel.de/briefkasten'},
@@ -928,7 +936,7 @@ h1,h2,h3,.display{text-wrap:balance;}
     if(slider){ slider.addEventListener('mouseenter', stop); slider.addEventListener('mouseleave', start); }
     document.addEventListener('visibilitychange', function(){ if(document.hidden) stop(); else start(); });
     // let the lightbox pause/resume the carousel while it is open
-    heroPause = stop; heroResume = start;
+    lbPause.push(stop); lbResume.push(start);
     start();
   })();
 
@@ -1078,7 +1086,7 @@ h1,h2,h3,.display{text-wrap:balance;}
              '<a class="btn btn-primary btn-sm" href="'+href+'" target="_blank" rel="noopener">Zum Produkt</a></div>';
     }).join('');
   }
-  function openLightbox(i){ idx=i; setLbMode(false); if(lbProdsLabel) lbProdsLabel.style.display=''; render(i); galLbOpen=true; if(heroPause) heroPause(); lb.classList.add('is-open'); document.body.style.overflow='hidden'; }
+  function openLightbox(i){ idx=i; setLbMode(false); if(lbProdsLabel) lbProdsLabel.style.display=''; render(i); galLbOpen=true; lbPause.forEach(function(f){ f(); }); lb.classList.add('is-open'); document.body.style.overflow='hidden'; }
   // Hero carousel slides open their own photo, mapped to a gallery item for the product links
   function openHeroLightbox(sd){
     var item=null; if(sd.lb){ for(var i=0;i<GALLERY.length;i++){ if(GALLERY[i].id===sd.lb){ item=GALLERY[i]; break; } } }
@@ -1088,10 +1096,10 @@ h1,h2,h3,.display{text-wrap:balance;}
     lbProds.innerHTML = prodRows(prods);
     if(lbProdsLabel) lbProdsLabel.style.display = prods.length ? '' : 'none';
     setLbMode(true);
-    galLbOpen=true; if(heroPause) heroPause();
+    galLbOpen=true; lbPause.forEach(function(f){ f(); });
     lb.classList.add('is-open'); document.body.style.overflow='hidden';
   }
-  function closeLightbox(){ lb.classList.remove('is-open'); document.body.style.overflow=''; galLbOpen=false; if(heroResume) heroResume(); }
+  function closeLightbox(){ lb.classList.remove('is-open'); document.body.style.overflow=''; galLbOpen=false; lbResume.forEach(function(f){ f(); }); }
   function step(dir){
     var vis = visibleIndexes(); if(!vis.length) return;
     var pos = vis.indexOf(idx); if(pos===-1) pos=0;
@@ -1114,15 +1122,74 @@ h1,h2,h3,.display{text-wrap:balance;}
     else if(e.key==='ArrowRight') step(1);
   });
 
-  /* ---- Siegerbild des Monats: click the winner photo to open its lightbox ---- */
+  /* ---- Siegerbild des Monats: auto-sliding carousel of recent monthly winners ---- */
   (function(){
-    var media = document.querySelector('[data-winner]');
-    if(!media) return;
-    var wid = media.getAttribute('data-winner'), widx = -1;
-    for(var i=0;i<GALLERY.length;i++){ if(GALLERY[i].id===wid){ widx=i; break; } }
-    if(widx<0) return;
-    media.addEventListener('click', function(){ openLightbox(widx); });
-    media.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openLightbox(widx); } });
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var WIMG = window.WINNERS || {};
+    var META = [
+      {key:'w2025_07', month:'Juli 2025',     name:'L. Wittmers'},
+      {key:'w2025_06', month:'Juni 2025',     name:'H. Olberding'},
+      {key:'w2025_05', month:'Mai 2025',      name:'F. Bartosch'},
+      {key:'w2025_04', month:'April 2025',    name:'J. Schlittke'},
+      {key:'w2025_03', month:'März 2025',     name:'J. Weckmüller'},
+      {key:'w2025_02', month:'Februar 2025',  name:'E. Preisler'},
+      {key:'w2025_01', month:'Januar 2025',   name:'O. Rosemann'},
+      {key:'w2024_12', month:'Dezember 2024', name:'T. Kroll'},
+      {key:'w2024_11', month:'November 2024', name:'C. Altmann'},
+      {key:'w2024_10', month:'Oktober 2024',  name:'T. Bach'},
+      {key:'w2024_09', month:'September 2024', name:'C. Lorenz'},
+      {key:'w2024_08', month:'August 2024',   name:'J. Müller'}
+    ].filter(function(m){ return WIMG[m.key]; });
+    var track = document.querySelector('[data-winner-track]');
+    if(!track || !META.length) return;
+    var media   = track.closest('.gal-winner__media');
+    var credit  = document.querySelector('[data-winner-credit]');
+    var counter = document.querySelector('[data-winner-counter]');
+    var eyebrow = document.querySelector('[data-winner-eyebrow]');
+    var prevBtn = document.querySelector('[data-winner-nav="prev"]');
+    var nextBtn = document.querySelector('[data-winner-nav="next"]');
+    var N = META.length;
+    function pad(n){ return (n<10?'0':'')+n; }
+    // [cloneLast, s0 … s(N-1), cloneFirst] for seamless looping in both directions
+    var order = [META[N-1]].concat(META).concat([META[0]]);
+    order.forEach(function(m){
+      var s=document.createElement('figure'); s.className='gal-winner__slide';
+      s.setAttribute('role','button'); s.setAttribute('tabindex','0');
+      s.setAttribute('aria-label','Gewinnerfoto '+m.month+' vergrößern');
+      var im=document.createElement('img'); im.src=WIMG[m.key]; im.loading='lazy';
+      im.alt='Siegerbild des Monats '+m.month+' – eingereicht von '+m.name;
+      s.appendChild(im);
+      var sd={ src:WIMG[m.key], cap:'Siegerbild des Monats · '+m.month+' · '+m.name };
+      s.addEventListener('click', function(){ openHeroLightbox(sd); });
+      s.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openHeroLightbox(sd); } });
+      track.appendChild(s);
+    });
+    function realOf(p){ return ((p-1)%N+N)%N; }
+    function paint(real){
+      if(credit)  credit.textContent  = 'Eingereicht von ' + META[real].name;
+      if(eyebrow) eyebrow.textContent = 'Gewinner · ' + META[real].month;
+      if(counter) counter.textContent = pad(real+1) + ' / ' + N;
+    }
+    function apply(p, anim){ track.classList.toggle('is-anim', !!anim); track.style.transform='translateX(-'+(p*100)+'%)'; }
+    var pos=1, snap=null;
+    function go(p){
+      pos=p; apply(pos, true); paint(realOf(pos));
+      if(snap){ clearTimeout(snap); snap=null; }
+      if(pos===0){ snap=setTimeout(function(){ apply(N,false); pos=N; }, 720); }
+      else if(pos===N+1){ snap=setTimeout(function(){ apply(1,false); pos=1; }, 720); }
+    }
+    apply(1,false); paint(0);
+    var timer=null;
+    function next(){ go(pos+1); }
+    function prev(){ go(pos-1); }
+    function start(){ if(reduce||galLbOpen) return; stop(); timer=setInterval(next, 3600); }
+    function stop(){ if(timer){ clearInterval(timer); timer=null; } }
+    function restart(){ stop(); start(); }
+    if(prevBtn) prevBtn.addEventListener('click', function(){ prev(); restart(); });
+    if(nextBtn) nextBtn.addEventListener('click', function(){ next(); restart(); });
+    if(media){ media.addEventListener('mouseenter', stop); media.addEventListener('mouseleave', start); }
+    lbPause.push(stop); lbResume.push(start);
+    start();
   })();
 
   /* ---- Fotowettbewerb form ---- */
