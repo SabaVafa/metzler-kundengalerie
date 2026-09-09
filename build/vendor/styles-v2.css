@@ -575,8 +575,11 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
      here. Removing it from the pinned header used to shrink the header 53px and snap all
      content (the progress-bar jump) up; scrolling it away avoids that with no gap or jump. */
   body.is-scrolled .header__kategorien { display: inline-flex; }
+  /* nav now lives inside the sticky header (like the About-Us page): hide it on scroll so
+     the whole header collapses cleanly to the compact bar + Kategorien pill (no content jump) */
+  body.is-scrolled .header__nav { display: none !important; }
 
-  /* Desktop horizontal nav is forced visible (it scrolls behind the pinned top bar) */
+  /* Desktop horizontal nav is forced visible at rest */
   .header__nav { display: block !important; }
 
   /* Search bar stays integrated into the top header row */

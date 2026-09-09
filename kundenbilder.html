@@ -607,8 +607,11 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
      here. Removing it from the pinned header used to shrink the header 53px and snap all
      content (the progress-bar jump) up; scrolling it away avoids that with no gap or jump. */
   body.is-scrolled .header__kategorien { display: inline-flex; }
+  /* nav now lives inside the sticky header (like the About-Us page): hide it on scroll so
+     the whole header collapses cleanly to the compact bar + Kategorien pill (no content jump) */
+  body.is-scrolled .header__nav { display: none !important; }
 
-  /* Desktop horizontal nav is forced visible (it scrolls behind the pinned top bar) */
+  /* Desktop horizontal nav is forced visible at rest */
   .header__nav { display: block !important; }
 
   /* Search bar stays integrated into the top header row */
@@ -3819,9 +3822,8 @@ h1,h2,h3,.display{text-wrap:balance;}
       </div>
     </div>
   </div>
-</header>
 
-<nav class="header__nav" aria-label="Hauptnavigation">
+  <nav class="header__nav" aria-label="Hauptnavigation">
   <div class="container">
     <button class="header__nav-all" type="button" data-nav-toggle aria-controls="mobileNav" aria-expanded="false" aria-label="Alle Kategorien">
       <img class="header__nav-all-icon" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjEiIGhlaWdodD0iMTciIHZpZXdCb3g9IjAgMCAyMSAxNyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCjxwYXRoIGQ9Ik0wIDAuOEMwIDAuMzU4MTcyIDAuMzU4MTcyIDAgMC44IDBIMjAuMkMyMC42NDE4IDAgMjEgMC4zNTgxNzIgMjEgMC44QzIxIDEuMjQxODMgMjAuNjQxOCAxLjYgMjAuMiAxLjZIMC43OTk5OTlDMC4zNTgxNzEgMS42IDAgMS4yNDE4MyAwIDAuOFoiIGZpbGw9IndoaXRlIi8+DQo8cGF0aCBkPSJNMCA4LjRDMCA3Ljk1ODE3IDAuMzU4MTcyIDcuNiAwLjggNy42SDE0LjJDMTQuNjQxOCA3LjYgMTUgNy45NTgxNyAxNSA4LjRDMTUgOC44NDE4MyAxNC42NDE4IDkuMiAxNC4yIDkuMkgwLjhDMC4zNTgxNzIgOS4yIDAgOC44NDE4MyAwIDguNFoiIGZpbGw9IndoaXRlIi8+DQo8cGF0aCBkPSJNMCAxNkMwIDE1LjU1ODIgMC4zNTgxNzIgMTUuMiAwLjggMTUuMkgyMC4yQzIwLjY0MTggMTUuMiAyMSAxNS41NTgyIDIxIDE2QzIxIDE2LjQ0MTggMjAuNjQxOCAxNi44IDIwLjIgMTYuOEgwLjc5OTk5OUMwLjM1ODE3MSAxNi44IDAgMTYuNDQxOCAwIDE2WiIgZmlsbD0id2hpdGUiLz4NCjwvc3ZnPg0K" alt="" aria-hidden="true" />
@@ -3891,7 +3893,8 @@ h1,h2,h3,.display{text-wrap:balance;}
       <li><a href="#">Garten</a></li>
     </ul>
   </div>
-</nav>
+  </nav>
+</header>
 
 <!-- ===== MOBILE SLIDE-IN NAV ===== -->
 <div class="mobile-nav" id="mobileNav" aria-hidden="true">
