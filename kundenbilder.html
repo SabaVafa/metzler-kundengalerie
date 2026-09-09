@@ -170,21 +170,13 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   padding-inline: clamp(var(--sp-6), 4vw, 56px);
 }
 
-/* Laptop+ (≥1440): widen container + larger gutters */
+/* Desktop (≥1440): match the About-Us page (and the main metzler site,
+   edelstahl-tuerklingel.de) — a flat 1600px container with 100px gutters
+   (1400px content), held at that cap on every larger screen so the layout
+   stays consistent and never sprawls out on wide monitors. */
 @media (min-width: 1440px) {
-  :root { --container: 1560px; }
-  .container { padding-inline: clamp(92px, 5vw, 116px); }
-}
-
-/* Large desktop (≥1920): widen further, generous gutters */
-@media (min-width: 1920px) {
-  :root { --container: 1760px; }
-  .container { padding-inline: clamp(92px, 5vw, 140px); }
-}
-
-/* Ultra-wide (≥2560): cap so content doesn't sprawl */
-@media (min-width: 2560px) {
-  :root { --container: 2040px; }
+  :root { --container: 1600px; }
+  .container { padding-inline: 100px; }
 }
 .section { padding-block: var(--section-y); }
 .eyebrow {
