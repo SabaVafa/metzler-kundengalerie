@@ -3430,8 +3430,9 @@ p{margin:0 0 1rem;}
 /* ============ HERO ============ */
 /* Hero as a dark "poster" band — charcoal (#1A1A1F) */
 .gal-hero{position:relative; background:var(--color-graphite-900); overflow:hidden;}
-.gal-hero__grid{display:grid; grid-template-columns:minmax(0,34rem) 1fr; gap:3.5rem; align-items:stretch; padding:0;}
-.gal-hero__copy{max-width:34rem; padding-block:4rem;}
+.gal-hero__grid{display:grid; grid-template-columns:minmax(0,40rem) minmax(0,48rem); gap:3.5rem; align-items:stretch; justify-content:space-between; padding:0;}
+.gal-hero__copy{max-width:40rem; padding-block:4rem;}
+.gal-hero__lead{max-width:34rem;}
 /* Hero type follows the About-Us hero (eyebrow muted white rgba(255,255,255,0.72) · title clamp(1.75–2.7rem)/1.3 · body 1rem/1.75) */
 .gal-hero .overline{color:rgba(255,255,255,0.72); margin-bottom:0.85rem;}
 .gal-hero .display{margin-bottom:1.15rem; color:var(--color-white); font-size:clamp(1.75rem, 3.06vw, 2.7rem); line-height:1.3; letter-spacing:-0.015em;}
@@ -4019,7 +4020,7 @@ h1,h2,h3,.display{text-wrap:balance;}
         <div class="gal-winner__body">
           <p class="gal-winner__eyebrow"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><span data-winner-eyebrow>Gewinner</span></p>
           <h2 id="winner-heading" class="gal-winner__title">Unser Gewinnerfoto des Monats</h2>
-          <p class="gal-winner__lead">Jeden Monat wählt unsere Jury aus allen Einsendungen das schönste Kundenfoto zum Siegerbild des Monats.</p>
+          <p class="gal-winner__lead">Jeden Monat kürt unsere Jury aus allen Einsendungen das schönste Kundenfoto zum Siegerbild des Monats.</p>
           <div class="gal-winner__cta">
             <a href="#mitmachen" class="btn btn-primary btn-lg">Jetzt mitmachen</a>
             <a href="https://www.metzlergmbh.de/gewinner/" target="_blank" rel="noopener" class="btn btn-white btn-lg">Alle Gewinner ansehen</a>
@@ -4753,6 +4754,16 @@ h1,h2,h3,.display{text-wrap:balance;}
     var prevBtn = document.querySelector('[data-winner-nav="prev"]');
     var nextBtn = document.querySelector('[data-winner-nav="next"]');
     var N = META.length;
+    // when the main image is out of view (mobile: thumbnails sit below it), scroll it into view
+    function reveal(){
+      if(!media) return;
+      var r = media.getBoundingClientRect();
+      var hEl = document.querySelector('.header'); var hH = hEl ? hEl.getBoundingClientRect().height : 0;
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      if(r.top < hH + 4 || r.bottom > vh){
+        window.scrollTo({ top: window.scrollY + r.top - hH - 12, behavior: 'smooth' });
+      }
+    }
     function pad(n){ return (n<10?'0':'')+n; }
     // [cloneLast, s0 … s(N-1), cloneFirst] for seamless looping in both directions
     var order = [META[N-1]].concat(META).concat([META[0]]);
@@ -4778,7 +4789,7 @@ h1,h2,h3,.display{text-wrap:balance;}
         b.setAttribute('aria-label', m.month + ' – ' + m.name);
         var im=document.createElement('img'); im.src=WIMG[m.key]; im.alt=''; im.loading='lazy';
         b.appendChild(im);
-        b.addEventListener('click', function(){ go(i+1); restart(); });
+        b.addEventListener('click', function(){ go(i+1); restart(); reveal(); });
         railEl.appendChild(b); thumbs.push(b);
       });
     }
@@ -4817,8 +4828,8 @@ h1,h2,h3,.display{text-wrap:balance;}
     function start(){ if(reduce||galLbOpen) return; stop(); timer=setInterval(next, 3600); }
     function stop(){ if(timer){ clearInterval(timer); timer=null; } }
     function restart(){ stop(); start(); }
-    if(prevBtn) prevBtn.addEventListener('click', function(){ prev(); restart(); });
-    if(nextBtn) nextBtn.addEventListener('click', function(){ next(); restart(); });
+    if(prevBtn) prevBtn.addEventListener('click', function(){ prev(); restart(); reveal(); });
+    if(nextBtn) nextBtn.addEventListener('click', function(){ next(); restart(); reveal(); });
     if(media){ media.addEventListener('mouseenter', stop); media.addEventListener('mouseleave', start); }
     lbPause.push(stop); lbResume.push(start);
     start();
