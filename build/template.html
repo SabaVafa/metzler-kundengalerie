@@ -1263,14 +1263,16 @@ h1,h2,h3,.display{text-wrap:balance;}
     var nextBtn = document.querySelector('[data-winner-nav="next"]');
     var N = META.length;
     // when the main image is out of view (mobile: thumbnails sit below it), scroll it into view
+    // On the stacked (mobile/tablet) layout the image sits above the strip, so any
+    // control scrolls the image up to sit 2px below the sticky nav (header + toolbar).
     function reveal(){
-      if(!media) return;
-      var r = media.getBoundingClientRect();
-      var hEl = document.querySelector('.header'); var hH = hEl ? hEl.getBoundingClientRect().height : 0;
-      var vh = window.innerHeight || document.documentElement.clientHeight;
-      if(r.top < hH + 4 || r.bottom > vh){
-        window.scrollTo({ top: window.scrollY + r.top - hH - 12, behavior: 'smooth' });
-      }
+      if(!media || window.innerWidth > 1200) return;
+      var header = document.querySelector('.header');
+      var toolbar = document.querySelector('.gal-toolbar');
+      var hH = header ? header.getBoundingClientRect().height : 0;
+      var tH = toolbar ? toolbar.getBoundingClientRect().height : 0;
+      var y = window.scrollY + media.getBoundingClientRect().top - hH - tH - 2;
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
     function pad(n){ return (n<10?'0':'')+n; }
     // [cloneLast, s0 … s(N-1), cloneFirst] for seamless looping in both directions
