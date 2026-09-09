@@ -191,11 +191,12 @@ p{margin:0 0 1rem;}
   .gal-filters{flex:1 1 auto; min-width:0; flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
   .gal-filters::-webkit-scrollbar{display:none;}
 }
-.gf:hover{border-color:var(--color-teal); color:var(--color-teal); background:var(--color-teal-50);}
+/* hover = just darken the border (consistent with the PDP RAL family chips) */
+.gf:hover{border-color:var(--color-graphite-400);}
 .gf:active{transform:translateY(0.0625rem);}
 .gf.is-active{background:var(--color-teal); border-color:var(--color-teal); color:var(--color-white);}
+.gf.is-active:hover{border-color:var(--color-teal-700);}
 .gf__count{display:inline-flex; align-items:center; justify-content:center; min-width:1.3rem; height:1.3rem; padding:0 0.35rem; border-radius:var(--radius-pill); background:var(--color-graphite-100); color:var(--color-graphite-600); font-size:0.6875rem; font-weight:700; line-height:1; font-variant-numeric:tabular-nums;}
-.gf:hover .gf__count{background:var(--color-teal-100); color:var(--color-teal);}
 .gf.is-active .gf__count{background:rgba(255,255,255,0.22); color:var(--color-white);}
 .gal-count{font-size:0.875rem; color:var(--color-graphite-600); white-space:nowrap;}
 .gal-count b{color:var(--color-graphite-600);}
