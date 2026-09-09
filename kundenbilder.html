@@ -3432,7 +3432,7 @@ p{margin:0 0 1rem;}
 .gal-hero{position:relative; background:var(--color-graphite-900); overflow:hidden;}
 /* Large screens: aspect-ratio-locked banner (grows taller with width) like the
    About-Us hero — copy vertically centered, image fills 1fr at full height (no gap) */
-.gal-hero__grid{display:grid; grid-template-columns:minmax(0,40rem) 1fr; gap:clamp(2rem,3vw,3.5rem); align-items:stretch; aspect-ratio:2.6 / 1; padding:0;}
+.gal-hero__grid{display:grid; grid-template-columns:minmax(0,40rem) 1fr; gap:clamp(2rem,3vw,3.5rem); align-items:stretch; aspect-ratio:3.4 / 1.2; padding:0;}
 .gal-hero__copy{max-width:40rem; align-self:center; padding-block:2rem;}
 .gal-hero__lead{max-width:34rem;}
 /* Hero type follows the About-Us hero (eyebrow muted white rgba(255,255,255,0.72) · title clamp(1.75–2.7rem)/1.3 · body 1rem/1.75) */
@@ -3710,7 +3710,7 @@ html.gal-lb-lock, html.gal-lb-lock body{overflow:hidden;}
   .gal-winner__grid{grid-template-columns:21rem 1fr;}
   /* rail becomes a full-width horizontal scroll strip flanked by chevrons */
   .gal-winner__railwrap{grid-column:1 / -1; display:flex; align-items:center; gap:0.6rem; margin-top:0.5rem;}
-  .gal-winner__rail{flex:1 1 auto; min-width:0; display:flex; gap:0.85rem; padding-bottom:0.25rem; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
+  .gal-winner__rail{flex:1 1 auto; min-width:0; display:flex; gap:0.85rem; padding:0.35rem 0.125rem; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
   .gal-winner__rail::-webkit-scrollbar{display:none;}
   .gal-winner__thumb{flex:0 0 4.5rem;}
   .gal-winner__railnav{display:grid; place-items:center; flex:0 0 auto; width:2.25rem; height:2.25rem; cursor:pointer; color:var(--color-white); background:rgba(255,255,255,0.12); border:0.0625rem solid rgba(255,255,255,0.3); border-radius:var(--radius); transition:background .15s ease;}
