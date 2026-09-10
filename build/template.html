@@ -182,9 +182,8 @@ p{margin:0 0 1rem;}
 .gal-toolbar{position:sticky; top:var(--gal-sticky-top,0); z-index:40; background:var(--color-white); border-bottom:0.0625rem solid var(--color-graphite-200); transition:box-shadow .18s ease;}
 .gal-toolbar.is-stuck{box-shadow:0 0.25rem 0.75rem rgba(0,0,0,0.07);}
 .gal-toolbar__inner{display:flex; align-items:center; justify-content:space-between; gap:1rem clamp(1.5rem,3vw,2.5rem); padding:0.85rem 0; flex-wrap:nowrap;}
-/* left brand mark — mirrors the About-Us mid nav (msty) chrome: small eyebrow + large title */
+/* left brand mark — mirrors the About-Us mid nav (msty) chrome title */
 .gal-toolbar__brand{display:flex; align-items:baseline; gap:0.875rem; line-height:1; flex-shrink:0;}
-.gal-toolbar__eyebrow{font-size:0.75rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--color-graphite-600); line-height:1.4;}
 .gal-toolbar__title{font-size:1.875rem; font-weight:700; letter-spacing:-0.015em; color:var(--color-digital-black);}
 /* filter chips pushed to the right, mirroring the nav items on the About-Us bar */
 .gal-filters{display:flex; align-items:center; justify-content:flex-end; gap:0.5rem; flex-wrap:wrap; flex:1 1 auto; min-width:0;}
@@ -664,7 +663,6 @@ h1,h2,h3,.display{text-wrap:balance;}
     <div class="container">
       <div class="gal-toolbar__inner">
         <div class="gal-toolbar__brand">
-          <span class="gal-toolbar__eyebrow">Metzler</span>
           <span class="gal-toolbar__title">Kundengalerie</span>
         </div>
         <div class="gal-filters" id="filters" role="group" aria-label="Galerie nach Produktkategorie filtern">
