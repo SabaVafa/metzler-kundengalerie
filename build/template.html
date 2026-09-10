@@ -199,8 +199,8 @@ p{margin:0 0 1rem;}
 .gal-toolbar__brand{display:flex; align-items:baseline; gap:0.875rem; line-height:1; flex-shrink:0;}
 .gal-toolbar__eyebrow{font-size:0.75rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--color-graphite-600); line-height:1.4;}
 .gal-toolbar__title{font-size:1.875rem; font-weight:700; letter-spacing:-0.015em; color:var(--color-digital-black);}
-/* smaller title on small screens (30px large desktop → 28px laptops and below) */
-@media(max-width:90rem){ .gal-toolbar__title{font-size:1.75rem;} }
+/* smaller title on standard desktops/laptops (28px); 30px only on large monitors (>1920px) */
+@media(max-width:120rem){ .gal-toolbar__title{font-size:1.75rem;} }
 /* filter chips pushed to the right, mirroring the nav items on the About-Us bar.
    Single row at every width: right-aligned when they fit, scrolls horizontally
    when they don't — never wraps to a second line. The right-alignment is done
