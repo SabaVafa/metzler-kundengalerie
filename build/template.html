@@ -132,6 +132,9 @@ p{margin:0 0 1rem;}
   .gal-trust__grid{flex-wrap:nowrap; justify-content:flex-start; gap:clamp(2rem,4vw,3rem); overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
   .gal-trust__grid::-webkit-scrollbar{display:none;}
   .gal-trust__item{flex:0 0 22%; min-width:8rem; scroll-snap-align:start;}
+  /* anchor the first stat flush-left so it lines up with the page's content edge
+     (hero copy, filters, gallery) rather than sitting centred in its box */
+  .gal-trust__item:first-child{align-items:flex-start; text-align:left;}
   .gal-trust .strip-arrow{display:grid;}
 }
 @media(max-width:48rem){
