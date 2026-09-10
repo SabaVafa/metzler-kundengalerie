@@ -3522,17 +3522,19 @@ p{margin:0 0 1rem;}
    when they don't — never wraps to a second line. The right-alignment is done
    with margin-left:auto on the first chip (not justify-content:flex-end, which
    clips the leading chips out of reach once the row overflows). */
-.gal-filters{display:flex; align-items:center; gap:0.5rem; flex-wrap:nowrap; flex:1 1 auto; min-width:0; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
+.gal-filters{display:flex; align-items:center; gap:0.5rem; flex-wrap:nowrap; flex:1 1 auto; min-width:0; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+  /* overflow-x:auto also clips the vertical axis, which would cut off the chips'
+     rounded bottom borders / focus ring — pad the scroll box and pull it back with
+     a negative margin so the chips breathe without changing the bar height */
+  padding-block:0.375rem; margin-block:-0.375rem;}
 .gal-filters::-webkit-scrollbar{display:none;}
 .gal-filters > .gf:first-child{margin-left:auto;}
 .gf{flex-shrink:0; white-space:nowrap; display:inline-flex; align-items:center; gap:0.45rem; height:2.25rem; padding:0 0.55rem 0 0.95rem; border:0.0625rem solid var(--color-graphite-200); background:var(--color-white); color:var(--color-graphite-800); border-radius:var(--radius-pill); font-size:0.875rem; font-weight:600; cursor:pointer; transition:background .16s ease, border-color .16s ease, color .16s ease, box-shadow .16s ease, transform .12s ease;}
 /* small screens: single row, scroll the filter chips horizontally (like the PDP category nav) instead of wrapping */
-/* small screens: drop the title so the chip strip gets the full width and
-   reads from the first chip (no right-alignment offset) */
-@media(max-width:64rem){
-  .gal-toolbar__brand{display:none;}
-  .gal-filters > .gf:first-child{margin-left:0;}
-}
+/* the title is dropped (toggled by JS) as soon as the chips would overflow, so it
+   only shows while every chip fits; then the strip reads from the first chip */
+.gal-toolbar__inner.is-compact .gal-toolbar__brand{display:none;}
+.gal-toolbar__inner.is-compact .gal-filters > .gf:first-child{margin-left:0;}
 /* hover = just darken the border (consistent with the PDP RAL family chips) */
 .gf:hover{border-color:var(--color-graphite-400);}
 .gf:active{transform:translateY(0.0625rem);}
@@ -4613,6 +4615,35 @@ h1,h2,h3,.display{text-wrap:balance;}
   });
   applyFilter('all');
 
+  /* Drop the "Filter / Kundengalerie" title the moment the chip row would overflow,
+     so the title shows only while every chip fits on one line (no scroll). Measured
+     with the title shown, then toggled — keeps it robust to label/width changes. */
+  (function(){
+    var bar = document.querySelector('.gal-toolbar__inner');
+    var brand = document.querySelector('.gal-toolbar__brand');
+    if(!bar || !brand || !filtersEl) return;
+    var raf = 0;
+    function fit(){
+      raf = 0;
+      bar.classList.remove('is-compact');              // show the title to measure it
+      var brandW = brand.offsetWidth;
+      // natural width of the chip row (sum the boxes; scrollWidth is unreliable here
+      // because the first chip's margin-left:auto stretches to fill the container)
+      var chips = filtersEl.querySelectorAll('.gf');
+      var chipGap = parseFloat(getComputedStyle(filtersEl).columnGap) || 0;
+      var chipsW = 0;
+      for(var i=0;i<chips.length;i++){ chipsW += chips[i].offsetWidth + (i ? chipGap : 0); }
+      var gap = parseFloat(getComputedStyle(bar).columnGap) || 0;
+      if(brandW + gap + chipsW > bar.clientWidth + 1) bar.classList.add('is-compact');
+    }
+    function onResize(){ if(!raf) raf = requestAnimationFrame(fit); }
+    fit();
+    // ResizeObserver on the bar catches every width change (toggling the title
+    // doesn't change the bar's own width, so this never loops); resize is a fallback
+    if(window.ResizeObserver){ new ResizeObserver(onResize).observe(bar); }
+    else { window.addEventListener('resize', onResize); }
+  })();
+
   /* After filtering, bring the results into view: pin the toolbar just under the
      sticky header so the first matches are visible (only scrolls up, never down) */
   function scrollToResults(){
@@ -4809,11 +4840,12 @@ h1,h2,h3,.display{text-wrap:balance;}
       });
     }
     // side chevrons navigate the carousel (prev/next): updates the main image and
-    // active thumbnail; paint() keeps the active thumb in view and reveal() the image
+    // active thumbnail; paint() keeps the active thumb in view. No reveal() here —
+    // paging through the strip should not jump the page up to the main image.
     Array.prototype.forEach.call(document.querySelectorAll('[data-rail-nav]'), function(btn){
       btn.addEventListener('click', function(){
         if(btn.getAttribute('data-rail-nav')==='next') next(); else prev();
-        restart(); reveal();
+        restart();
       });
     });
     function realOf(p){ return ((p-1)%N+N)%N; }
