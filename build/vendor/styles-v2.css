@@ -266,11 +266,8 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .header__search {
   position: relative;
   width: 100%;
-  /* Dynamic width: search bar grows smoothly with the viewport
-     so the header doesn't leave blank space on large monitors.
-     Floor 846px at 1024 / scales linearly via 70vw / capped at
-     1600px on ultra-wide so the input stays usable. */
-  max-width: clamp(846px, 70vw, 1600px);
+  /* fixed cap, consistent with the About-Us header */
+  max-width: 846px;
   justify-self: center;
 }
 .header__search input {
@@ -346,7 +343,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   display: block;
   height: 2px;
   background: var(--color-digital-black);
-  border-radius: 1px;
+  border-radius: var(--r-s);
 }
 
 /* ============================================================
@@ -666,12 +663,13 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 }
 
 .header__nav {
-  /* strip now sits OUTSIDE the sticky header (scrolls away). Keep its own separator below,
-     and a z-index so it + its mega-panel sit above page content but below the pinned top bar. */
+  /* Divider ABOVE the nav row (between the main bar and the nav), matching the
+     About-Us header. position/z-index/background stay for the mega-panel, which
+     anchors to this element and must layer above page content. */
   position: relative;
   z-index: 49;
   background: var(--color-white);
-  border-bottom: 1px solid var(--color-graphite-300);
+  border-top: 1px solid var(--color-graphite-300);
 }
 .header__nav ul {
   display: flex;

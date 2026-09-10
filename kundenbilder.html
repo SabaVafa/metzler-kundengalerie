@@ -298,11 +298,8 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .header__search {
   position: relative;
   width: 100%;
-  /* Dynamic width: search bar grows smoothly with the viewport
-     so the header doesn't leave blank space on large monitors.
-     Floor 846px at 1024 / scales linearly via 70vw / capped at
-     1600px on ultra-wide so the input stays usable. */
-  max-width: clamp(846px, 70vw, 1600px);
+  /* fixed cap, consistent with the About-Us header */
+  max-width: 846px;
   justify-self: center;
 }
 .header__search input {
@@ -378,7 +375,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   display: block;
   height: 2px;
   background: var(--color-digital-black);
-  border-radius: 1px;
+  border-radius: var(--r-s);
 }
 
 /* ============================================================
@@ -698,12 +695,13 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 }
 
 .header__nav {
-  /* strip now sits OUTSIDE the sticky header (scrolls away). Keep its own separator below,
-     and a z-index so it + its mega-panel sit above page content but below the pinned top bar. */
+  /* Divider ABOVE the nav row (between the main bar and the nav), matching the
+     About-Us header. position/z-index/background stay for the mega-panel, which
+     anchors to this element and must layer above page content. */
   position: relative;
   z-index: 49;
   background: var(--color-white);
-  border-bottom: 1px solid var(--color-graphite-300);
+  border-top: 1px solid var(--color-graphite-300);
 }
 .header__nav ul {
   display: flex;
@@ -3530,6 +3528,8 @@ p{margin:0 0 1rem;}
 .gal-toolbar__brand{display:flex; align-items:baseline; gap:0.875rem; line-height:1; flex-shrink:0;}
 .gal-toolbar__eyebrow{font-size:0.75rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--color-graphite-600); line-height:1.4;}
 .gal-toolbar__title{font-size:1.875rem; font-weight:700; letter-spacing:-0.015em; color:var(--color-digital-black);}
+/* smaller title on small screens (30px large desktop → 28px laptops and below) */
+@media(max-width:90rem){ .gal-toolbar__title{font-size:1.75rem;} }
 /* filter chips pushed to the right, mirroring the nav items on the About-Us bar.
    Single row at every width: right-aligned when they fit, scrolls horizontally
    when they don't — never wraps to a second line. The right-alignment is done
