@@ -3456,25 +3456,20 @@ p{margin:0 0 1rem;}
 @media(hover:hover){ .strip-arrow:hover{background:var(--color-teal); color:var(--color-white); border-color:var(--color-teal);} }
 .strip-arrow:focus-visible{outline:none; box-shadow:0 0 0 0.1875rem rgba(1,82,83,0.18);}
 .strip-arrow.is-hidden{opacity:0; pointer-events:none;}
-/* ≤64rem: single swipeable row with peek + scroll-snap + side arrows (About-Us trust-strip approach) */
+/* ≤64rem: single swipeable rail with peek + scroll-snap + side arrows —
+   mirrors the About-Us .about-truststrip (centred stats, ~4 visible on tablet,
+   ~2.5 on phone; arrows sit in the page gutter) */
 @media(max-width:64rem){
-  /* Swipeable strip: content-width stats, all flush-left, even gaps. Pure swipe —
-     no side chevrons: they truncated the labels and clashed with the flush-left
-     first stat that lines up with the page's content edge (hero copy, filters,
-     gallery). The first stat therefore anchors the whole row to that edge. */
-  .gal-trust__grid{flex-wrap:nowrap; justify-content:flex-start; gap:2.5rem; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none;
-    /* soft-fade the right edge so a partly-shown stat fades out (a clean "swipe
-       for more" cue) instead of hard-clipping a label mid-word; trailing padding
-       lets the last stat clear the fade when scrolled to the end */
-    padding-inline-end:2rem;
-    -webkit-mask-image:linear-gradient(to right, #000 calc(100% - 2rem), transparent);
-    mask-image:linear-gradient(to right, #000 calc(100% - 2rem), transparent);}
+  .gal-trust__grid{flex-wrap:nowrap; justify-content:flex-start; gap:var(--sp-8); overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
   .gal-trust__grid::-webkit-scrollbar{display:none;}
-  .gal-trust__item{flex:0 0 auto; min-width:0; align-items:flex-start; text-align:left; scroll-snap-align:start;}
-  .gal-trust .strip-arrow{display:none;}
+  .gal-trust__item{flex:0 0 22%; min-width:120px; scroll-snap-align:start;}
+  .gal-trust .strip-arrow{display:grid;}
+  .gal-trust .strip-arrow--prev{left:clamp(var(--sp-6),4vw,3.5rem);}
+  .gal-trust .strip-arrow--next{right:clamp(var(--sp-6),4vw,3.5rem);}
 }
 @media(max-width:48rem){
-  .gal-trust__grid{padding-block:2rem;}
+  .gal-trust__grid{gap:var(--sp-3); padding-block:2rem;}
+  .gal-trust__item{flex:0 0 40%;}
 }
 
 /* ---- Hero auto-advancing carousel: one featured customer photo at a time, the
@@ -3528,8 +3523,8 @@ p{margin:0 0 1rem;}
 .gal-toolbar__brand{display:flex; align-items:baseline; gap:0.875rem; line-height:1; flex-shrink:0;}
 .gal-toolbar__eyebrow{font-size:0.75rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--color-graphite-600); line-height:1.4;}
 .gal-toolbar__title{font-size:1.875rem; font-weight:700; letter-spacing:-0.015em; color:var(--color-digital-black);}
-/* smaller title on standard desktops/laptops (28px); 30px only on large monitors (>1920px) */
-@media(max-width:120rem){ .gal-toolbar__title{font-size:1.75rem;} }
+/* smaller title on standard/small desktops (24px); 30px only on large monitors (>1920px) */
+@media(max-width:120rem){ .gal-toolbar__title{font-size:1.5rem;} }
 /* filter chips pushed to the right, mirroring the nav items on the About-Us bar.
    Single row at every width: right-aligned when they fit, scrolls horizontally
    when they don't — never wraps to a second line. The right-alignment is done
