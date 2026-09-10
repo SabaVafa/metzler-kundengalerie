@@ -3460,16 +3460,18 @@ p{margin:0 0 1rem;}
    mirrors the About-Us .about-truststrip (centred stats, ~4 visible on tablet,
    ~2.5 on phone; arrows sit in the page gutter) */
 @media(max-width:64rem){
-  .gal-trust__grid{flex-wrap:nowrap; justify-content:flex-start; gap:var(--sp-8); overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
+  .gal-trust__grid{flex-wrap:nowrap; justify-content:flex-start; gap:2rem; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
   .gal-trust__grid::-webkit-scrollbar{display:none;}
-  .gal-trust__item{flex:0 0 22%; min-width:120px; scroll-snap-align:start;}
+  /* stats flush-left & content-width: the first stat lines up with the page's
+     content edge (hero copy, filters, gallery) and the gaps between stats stay
+     even/proportional (fixed-% centred boxes leave uneven gaps around the text) */
+  .gal-trust__item{flex:0 0 auto; min-width:0; align-items:flex-start; text-align:left; scroll-snap-align:start;}
   .gal-trust .strip-arrow{display:grid;}
   .gal-trust .strip-arrow--prev{left:clamp(var(--sp-6),4vw,3.5rem);}
   .gal-trust .strip-arrow--next{right:clamp(var(--sp-6),4vw,3.5rem);}
 }
 @media(max-width:48rem){
-  .gal-trust__grid{gap:var(--sp-3); padding-block:2rem;}
-  .gal-trust__item{flex:0 0 40%;}
+  .gal-trust__grid{gap:1.75rem; padding-block:2rem;}
 }
 
 /* ---- Hero auto-advancing carousel: one featured customer photo at a time, the
