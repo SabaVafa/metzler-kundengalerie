@@ -4002,6 +4002,9 @@ h1,h2,h3,.display{text-wrap:balance;}
   </section>
 
   <!-- FILTER TOOLBAR -->
+  <!-- Toolbar sticks only while its gallery scrolls past, then releases at the
+       gallery's bottom instead of following the whole page -->
+  <div class="gal-sticky-wrap">
   <div class="gal-toolbar" id="galerie">
     <div class="container">
       <div class="gal-toolbar__inner">
@@ -4025,6 +4028,7 @@ h1,h2,h3,.display{text-wrap:balance;}
       <div class="gal-grid" id="grid"><!-- tiles injected by JS --></div>
     </div>
   </section>
+  </div><!-- /.gal-sticky-wrap -->
 
   <!-- SIEGERBILD DES MONATS -->
   <section class="section gal-winner" aria-labelledby="winner-heading">
