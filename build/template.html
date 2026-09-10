@@ -186,15 +186,21 @@ p{margin:0 0 1rem;}
 .gal-toolbar__brand{display:flex; align-items:baseline; gap:0.875rem; line-height:1; flex-shrink:0;}
 .gal-toolbar__eyebrow{font-size:0.75rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--color-graphite-600); line-height:1.4;}
 .gal-toolbar__title{font-size:1.875rem; font-weight:700; letter-spacing:-0.015em; color:var(--color-digital-black);}
-/* filter chips pushed to the right, mirroring the nav items on the About-Us bar */
-.gal-filters{display:flex; align-items:center; justify-content:flex-end; gap:0.5rem; flex-wrap:wrap; flex:1 1 auto; min-width:0;}
+/* filter chips pushed to the right, mirroring the nav items on the About-Us bar.
+   Single row at every width: right-aligned when they fit, scrolls horizontally
+   when they don't — never wraps to a second line. The right-alignment is done
+   with margin-left:auto on the first chip (not justify-content:flex-end, which
+   clips the leading chips out of reach once the row overflows). */
+.gal-filters{display:flex; align-items:center; gap:0.5rem; flex-wrap:nowrap; flex:1 1 auto; min-width:0; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
+.gal-filters::-webkit-scrollbar{display:none;}
+.gal-filters > .gf:first-child{margin-left:auto;}
 .gf{flex-shrink:0; white-space:nowrap; display:inline-flex; align-items:center; gap:0.45rem; height:2.25rem; padding:0 0.55rem 0 0.95rem; border:0.0625rem solid var(--color-graphite-200); background:var(--color-white); color:var(--color-graphite-800); border-radius:var(--radius-pill); font-size:0.875rem; font-weight:600; cursor:pointer; transition:background .16s ease, border-color .16s ease, color .16s ease, box-shadow .16s ease, transform .12s ease;}
 /* small screens: single row, scroll the filter chips horizontally (like the PDP category nav) instead of wrapping */
-/* once the chips scroll, drop the title entirely and give the strip the full width */
+/* small screens: drop the title so the chip strip gets the full width and
+   reads from the first chip (no right-alignment offset) */
 @media(max-width:64rem){
   .gal-toolbar__brand{display:none;}
-  .gal-filters{flex:1 1 auto; min-width:0; justify-content:flex-start; flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
-  .gal-filters::-webkit-scrollbar{display:none;}
+  .gal-filters > .gf:first-child{margin-left:0;}
 }
 /* hover = just darken the border (consistent with the PDP RAL family chips) */
 .gf:hover{border-color:var(--color-graphite-400);}
