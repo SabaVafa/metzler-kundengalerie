@@ -3466,8 +3466,10 @@ p{margin:0 0 1rem;}
   .gal-trust .strip-arrow{display:grid;}
 }
 @media(max-width:48rem){
-  .gal-trust__grid{gap:1.5rem; padding:2rem 0;}
-  .gal-trust__item{flex:0 0 42%;}
+  /* size each stat to its content with an even gap (instead of wide 42% boxes
+     that leave a cavernous gap around the centred text) */
+  .gal-trust__grid{gap:2.25rem; padding:2rem 0;}
+  .gal-trust__item{flex:0 0 auto; min-width:0;}
 }
 
 /* ---- Hero auto-advancing carousel: one featured customer photo at a time, the
