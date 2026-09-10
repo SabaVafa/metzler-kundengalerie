@@ -1,5 +1,5 @@
 # This repo holds the Kundengalerie prototype only:
-#   kundenbilder.html · index.html · build/ · design-system/ · README.md
+#   kundenbilder.html · index.html · build/ · design-system/ · PROJECT.md
 # Everything below is a separate Metzler project (or local source) that shares
 # this working folder and must stay out of the repo.
 #
