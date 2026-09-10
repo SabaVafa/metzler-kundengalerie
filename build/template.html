@@ -190,14 +190,11 @@ p{margin:0 0 1rem;}
 .gal-filters{display:flex; align-items:center; justify-content:flex-end; gap:0.5rem; flex-wrap:wrap; flex:1 1 auto; min-width:0;}
 .gf{flex-shrink:0; white-space:nowrap; display:inline-flex; align-items:center; gap:0.45rem; height:2.25rem; padding:0 0.55rem 0 0.95rem; border:0.0625rem solid var(--color-graphite-200); background:var(--color-white); color:var(--color-graphite-800); border-radius:var(--radius-pill); font-size:0.875rem; font-weight:600; cursor:pointer; transition:background .16s ease, border-color .16s ease, color .16s ease, box-shadow .16s ease, transform .12s ease;}
 /* small screens: single row, scroll the filter chips horizontally (like the PDP category nav) instead of wrapping */
+/* once the chips scroll, drop the title entirely and give the strip the full width */
 @media(max-width:64rem){
+  .gal-toolbar__brand{display:none;}
   .gal-filters{flex:1 1 auto; min-width:0; justify-content:flex-start; flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
   .gal-filters::-webkit-scrollbar{display:none;}
-  .gal-toolbar__title{font-size:1.5rem;}
-}
-/* narrow: stack the brand above the (scrolling) chips */
-@media(max-width:48rem){
-  .gal-toolbar__inner{flex-direction:column; align-items:stretch; gap:0.75rem;}
 }
 /* hover = just darken the border (consistent with the PDP RAL family chips) */
 .gf:hover{border-color:var(--color-graphite-400);}
