@@ -1116,6 +1116,16 @@ h1,h2,h3,.display{text-wrap:balance;}
   }
 
   // build filter chips with counts
+  /* When a chip is only partly visible in the horizontal scroll strip, bring it
+     fully into view (horizontal only — never scrolls the page vertically). */
+  function revealChip(b){
+    var f = filtersEl;
+    if(f.scrollWidth <= f.clientWidth + 1) return; // not scrollable, nothing to do
+    var fr = f.getBoundingClientRect(), br = b.getBoundingClientRect();
+    var pad = 12;
+    if(br.right > fr.right)      f.scrollBy({ left: br.right - fr.right + pad, behavior:'smooth' });
+    else if(br.left < fr.left)   f.scrollBy({ left: br.left - fr.left - pad, behavior:'smooth' });
+  }
   var order = ['all','bk','sp','tk','pb','hn','mt'];
   order.forEach(function(key){
     var n = key==='all' ? GALLERY.length : GALLERY.filter(function(g){return g.cats.indexOf(key)!==-1;}).length;
@@ -1127,7 +1137,7 @@ h1,h2,h3,.display{text-wrap:balance;}
     b.setAttribute('aria-pressed', key==='all' ? 'true' : 'false');
     b.setAttribute('aria-label', CATS[key].label + ', ' + n + ' ' + (n===1?'Installation':'Installationen'));
     b.innerHTML = CATS[key].label + ' <span class="gf__count" aria-hidden="true">'+n+'</span>';
-    b.addEventListener('click', function(){ applyFilter(key); scrollToResults(); });
+    b.addEventListener('click', function(){ applyFilter(key); revealChip(b); scrollToResults(); });
     filtersEl.appendChild(b);
   });
   applyFilter('all');
