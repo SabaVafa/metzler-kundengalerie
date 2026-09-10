@@ -3464,13 +3464,19 @@ p{margin:0 0 1rem;}
      no side chevrons: they truncated the labels and clashed with the flush-left
      first stat that lines up with the page's content edge (hero copy, filters,
      gallery). The first stat therefore anchors the whole row to that edge. */
-  .gal-trust__grid{flex-wrap:nowrap; justify-content:flex-start; gap:2.5rem; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
+  .gal-trust__grid{flex-wrap:nowrap; justify-content:flex-start; gap:2.5rem; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+    /* soft-fade the right edge so a partly-shown stat fades out (a clean "swipe
+       for more" cue) instead of hard-clipping a label mid-word; trailing padding
+       lets the last stat clear the fade when scrolled to the end */
+    padding-inline-end:2rem;
+    -webkit-mask-image:linear-gradient(to right, #000 calc(100% - 2rem), transparent);
+    mask-image:linear-gradient(to right, #000 calc(100% - 2rem), transparent);}
   .gal-trust__grid::-webkit-scrollbar{display:none;}
   .gal-trust__item{flex:0 0 auto; min-width:0; align-items:flex-start; text-align:left; scroll-snap-align:start;}
   .gal-trust .strip-arrow{display:none;}
 }
 @media(max-width:48rem){
-  .gal-trust__grid{padding:2rem 0;}
+  .gal-trust__grid{padding-block:2rem;}
 }
 
 /* ---- Hero auto-advancing carousel: one featured customer photo at a time, the
@@ -3540,8 +3546,14 @@ p{margin:0 0 1rem;}
 /* small screens: single row, scroll the filter chips horizontally (like the PDP category nav) instead of wrapping */
 /* the title is dropped (toggled by JS) as soon as the chips would overflow, so it
    only shows while every chip fits; then the strip reads from the first chip */
-.gal-toolbar__inner.is-compact .gal-toolbar__brand{display:none;}
-.gal-toolbar__inner.is-compact .gal-filters > .gf:first-child{margin-left:0;}
+/* Desktop keeps the title; when the chips don't all fit alongside it they simply
+   scroll (margin-left:auto collapses on overflow so they read from the first chip).
+   Below the desktop breakpoint the title is dropped and the strip takes the full
+   width. */
+@media(max-width:63.999rem){
+  .gal-toolbar__brand{display:none;}
+  .gal-filters > .gf:first-child{margin-left:0;}
+}
 /* hover = just darken the border (consistent with the PDP RAL family chips) */
 .gf:hover{border-color:var(--color-graphite-400);}
 .gf:active{transform:translateY(0.0625rem);}
@@ -4637,35 +4649,6 @@ h1,h2,h3,.display{text-wrap:balance;}
     filtersEl.appendChild(b);
   });
   applyFilter('all');
-
-  /* Drop the "Filter / Kundengalerie" title the moment the chip row would overflow,
-     so the title shows only while every chip fits on one line (no scroll). Measured
-     with the title shown, then toggled — keeps it robust to label/width changes. */
-  (function(){
-    var bar = document.querySelector('.gal-toolbar__inner');
-    var brand = document.querySelector('.gal-toolbar__brand');
-    if(!bar || !brand || !filtersEl) return;
-    var raf = 0;
-    function fit(){
-      raf = 0;
-      bar.classList.remove('is-compact');              // show the title to measure it
-      var brandW = brand.offsetWidth;
-      // natural width of the chip row (sum the boxes; scrollWidth is unreliable here
-      // because the first chip's margin-left:auto stretches to fill the container)
-      var chips = filtersEl.querySelectorAll('.gf');
-      var chipGap = parseFloat(getComputedStyle(filtersEl).columnGap) || 0;
-      var chipsW = 0;
-      for(var i=0;i<chips.length;i++){ chipsW += chips[i].offsetWidth + (i ? chipGap : 0); }
-      var gap = parseFloat(getComputedStyle(bar).columnGap) || 0;
-      if(brandW + gap + chipsW > bar.clientWidth + 1) bar.classList.add('is-compact');
-    }
-    function onResize(){ if(!raf) raf = requestAnimationFrame(fit); }
-    fit();
-    // ResizeObserver on the bar catches every width change (toggling the title
-    // doesn't change the bar's own width, so this never loops); resize is a fallback
-    if(window.ResizeObserver){ new ResizeObserver(onResize).observe(bar); }
-    else { window.addEventListener('resize', onResize); }
-  })();
 
   /* After filtering, bring the results into view: pin the toolbar just under the
      sticky header so the first matches are visible (only scrolls up, never down) */
