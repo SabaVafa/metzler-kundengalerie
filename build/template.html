@@ -181,15 +181,23 @@ p{margin:0 0 1rem;}
 /* ============ FILTER TOOLBAR ============ */
 .gal-toolbar{position:sticky; top:var(--gal-sticky-top,0); z-index:40; background:var(--color-white); border-bottom:0.0625rem solid var(--color-graphite-200); transition:box-shadow .18s ease;}
 .gal-toolbar.is-stuck{box-shadow:0 0.25rem 0.75rem rgba(0,0,0,0.07);}
-.gal-toolbar__inner{display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:0.85rem 0; flex-wrap:wrap;}
-.gal-filters{display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;}
-.gal-filters__label{flex-shrink:0; white-space:nowrap; font-size:1rem; font-weight:700; color:var(--color-graphite-600); margin-right:0.5rem;}
+.gal-toolbar__inner{display:flex; align-items:center; justify-content:space-between; gap:1rem clamp(1.5rem,3vw,2.5rem); padding:0.85rem 0; flex-wrap:nowrap;}
+/* left brand mark — mirrors the About-Us mid nav (msty) chrome: small eyebrow + large title */
+.gal-toolbar__brand{display:flex; align-items:baseline; gap:0.875rem; line-height:1; flex-shrink:0;}
+.gal-toolbar__eyebrow{font-size:0.75rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--color-graphite-600); line-height:1.4;}
+.gal-toolbar__title{font-size:1.875rem; font-weight:700; letter-spacing:-0.015em; color:var(--color-digital-black);}
+/* filter chips pushed to the right, mirroring the nav items on the About-Us bar */
+.gal-filters{display:flex; align-items:center; justify-content:flex-end; gap:0.5rem; flex-wrap:wrap; flex:1 1 auto; min-width:0;}
 .gf{flex-shrink:0; white-space:nowrap; display:inline-flex; align-items:center; gap:0.45rem; height:2.25rem; padding:0 0.55rem 0 0.95rem; border:0.0625rem solid var(--color-graphite-200); background:var(--color-white); color:var(--color-graphite-800); border-radius:var(--radius-pill); font-size:0.875rem; font-weight:600; cursor:pointer; transition:background .16s ease, border-color .16s ease, color .16s ease, box-shadow .16s ease, transform .12s ease;}
 /* small screens: single row, scroll the filter chips horizontally (like the PDP category nav) instead of wrapping */
 @media(max-width:64rem){
-  .gal-toolbar__inner{flex-wrap:nowrap;}
-  .gal-filters{flex:1 1 auto; min-width:0; flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
+  .gal-filters{flex:1 1 auto; min-width:0; justify-content:flex-start; flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
   .gal-filters::-webkit-scrollbar{display:none;}
+  .gal-toolbar__title{font-size:1.5rem;}
+}
+/* narrow: stack the brand above the (scrolling) chips */
+@media(max-width:48rem){
+  .gal-toolbar__inner{flex-direction:column; align-items:stretch; gap:0.75rem;}
 }
 /* hover = just darken the border (consistent with the PDP RAL family chips) */
 .gf:hover{border-color:var(--color-graphite-400);}
@@ -655,8 +663,11 @@ h1,h2,h3,.display{text-wrap:balance;}
   <div class="gal-toolbar" id="galerie">
     <div class="container">
       <div class="gal-toolbar__inner">
+        <div class="gal-toolbar__brand">
+          <span class="gal-toolbar__eyebrow">Metzler</span>
+          <span class="gal-toolbar__title">Kundengalerie</span>
+        </div>
         <div class="gal-filters" id="filters" role="group" aria-label="Galerie nach Produktkategorie filtern">
-          <span class="gal-filters__label" aria-hidden="true">Filtern:</span>
           <!-- chips injected by JS -->
         </div>
         <!-- Result count is redundant with the active chip's own count, so it is
