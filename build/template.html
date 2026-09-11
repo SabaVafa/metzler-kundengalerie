@@ -1265,7 +1265,7 @@ h1,h2,h3,.display{text-wrap:balance;}
      offset is restored on unlock so the page doesn't jump. */
   var _lbScrollY = 0;
   function lockScroll(){ _lbScrollY = window.scrollY || window.pageYOffset || 0; var sw = window.innerWidth - document.documentElement.clientWidth; document.documentElement.classList.add('gal-lb-lock'); document.body.style.top = (-_lbScrollY) + 'px'; if(sw>0) document.body.style.paddingRight = sw + 'px'; }
-  function unlockScroll(){ document.documentElement.classList.remove('gal-lb-lock'); document.body.style.top = ''; document.body.style.paddingRight = ''; window.scrollTo(0, _lbScrollY); }
+  function unlockScroll(){ var h = document.documentElement; var prev = h.style.scrollBehavior; h.style.scrollBehavior = 'auto'; /* html has scroll-behavior:smooth — force instant so the restore doesn't animate */ h.classList.remove('gal-lb-lock'); document.body.style.top = ''; document.body.style.paddingRight = ''; window.scrollTo(0, _lbScrollY); h.style.scrollBehavior = prev; }
   function openLightbox(i){ idx=i; setLbMode(false); if(lbProdsLabel) lbProdsLabel.style.display=''; render(i); galLbOpen=true; lbPause.forEach(function(f){ f(); }); lb.classList.add('is-open'); lockScroll(); }
   // Hero carousel slides open their own photo, mapped to a gallery item for the product links
   function openHeroLightbox(sd){
